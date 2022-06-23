@@ -16,7 +16,7 @@ export const addUser = (data) => {
 
 export const editUser = (data) => {
   return request({
-    url: `users/${data.id}`,
+    url: prefix + 'user',
     method: 'put',
     data
   })

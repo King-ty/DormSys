@@ -26,7 +26,7 @@ class Student(User, db.Model):
     __tablename__ = "students"
 
     role = db.Column(db.SmallInteger, default=2, nullable=False)
-    major = db.Column(db.String(30))
+    major = db.Column(db.String(32))
     grade = db.Column(db.SmallInteger)  # eg:2019
     classno = db.Column(db.SmallInteger)  # eg:1
     profile = db.Column(db.Text)

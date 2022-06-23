@@ -29,7 +29,6 @@ export default {
   ],
   gender: [{ required: true, message: 'Please input gender', trigger: 'blur' }],
   email: [
-    { required: true, message: 'Please input email address', trigger: 'blur' },
     {
       type: 'email',
       message: 'Please input correct email address',
@@ -38,24 +37,19 @@ export default {
   ],
   tel: [
     {
-      required: true,
-      message: 'Please input telephone number',
-      trigger: 'blur'
-    },
-    {
-      pattern: '^d+(-d+)*$',
+      pattern: '^[0-9]+(-[0-9]+)*$',
       message: 'Please input correct telephone number'
     }
   ],
   major: [{ required: true, message: 'Please input major', trigger: 'blur' }],
   grade: [
-    { required: true, message: 'Please input grade', trigger: 'blur' },
     {
-      pattern: '^d{4}$',
-      message: 'Please input correct grade'
-    }
+      pattern: '^[0-9]+$',
+      message: 'Please input numbers'
+    },
+    { min: 4, max: 4, message: 'Length should be 4', trigger: 'blur' }
   ],
-  classno: [{ required: true, message: 'Please input class', trigger: 'blur' }],
+  classno: [{ type: 'number', message: 'class must be a number' }],
   vericode: [
     {
       required: true,

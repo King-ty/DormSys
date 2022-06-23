@@ -94,3 +94,45 @@ def add_user(current_user):
         db.session.rollback()
         return jsonRes(code=RET.DBERR, msg="数据库错误")
     return jsonRes(msg="添加用户成功")
+
+
+@user.route("/user", methods=["PUT"])
+@token_required
+@admin_required
+def edit_user(current_user):
+    data = request.json
+    # print(data)
+    no = data.get("no")
+    name = data.get("name")
+    gender = data.get("gender")
+    email = data.get("email")
+    tel = data.get("tel")
+    major = data.get("major")
+    grade = data.get("grade")
+    classno = data.get("classno")
+
+    if not all([no, name, gender]):
+        return jsonRes(code=RET.PARAMERR, msg="参数不完整")
+    try:
+        u = getUser(no)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonRes(code=RET.DBERR, msg="用户查询失败")
+
+    if not u:
+        return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
+    u = Student(no=no,
+                name=name,
+                gender=gender,
+                email=email,
+                tel=tel,
+                major=major,
+                grade=grade,
+                classno=classno)
+    try:
+        db.session.merge(u)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return jsonRes(code=RET.DBERR, msg="数据库错误")
+    return jsonRes(msg="编辑用户成功")

@@ -41,7 +41,7 @@
         <el-input v-model="form.grade" />
       </el-form-item>
       <el-form-item :label="$t('table.classno')" prop="classno">
-        <el-input v-model="form.classno" />
+        <el-input v-model.number="form.classno" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -148,12 +148,12 @@ const rules = ref({
   no: formRules.addNo,
   name: formRules.name,
   password: formRules.password,
-  gender: formRules.gender
-  // email: formRules.email,
-  // tel: formRules.tel,
+  gender: formRules.gender,
+  email: formRules.email,
+  tel: formRules.tel,
   // major: formRules.major,
-  // grade: formRules.grade,
-  // classno: formRules.classno
+  grade: formRules.grade,
+  classno: formRules.classno
 })
 </script>
 
