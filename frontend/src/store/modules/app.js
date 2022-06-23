@@ -5,6 +5,7 @@ export default {
   namespaced: true, // 这里注意不要漏掉d！！
   state: () => ({
     token: localStorage.getItem('token') || '',
+    role: localStorage.getItem('role') || 2,
     siderType: true,
     lang: localStorage.getItem('lang') || 'zh'
   }),
@@ -12,6 +13,10 @@ export default {
     setToken(state, token) {
       state.token = token
       localStorage.setItem('token', token)
+    },
+    setRole(state, role) {
+      state.role = role
+      localStorage.setItem('role', role)
     },
     changeSiderType(state) {
       state.siderType = !state.siderType
@@ -27,6 +32,7 @@ export default {
           .then((res) => {
             console.log(res)
             commit('setToken', res.token)
+            commit('setRole', res.role)
             router.replace('/')
             resolve()
           })

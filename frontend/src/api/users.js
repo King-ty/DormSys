@@ -1,6 +1,6 @@
 import request from './request'
 
-export const getUser = (params) => {
+export const getUsers = (params) => {
   return request({ url: 'users', params })
 }
 

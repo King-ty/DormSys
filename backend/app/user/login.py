@@ -34,7 +34,10 @@ def login():
             algorithm="HS256",
         )
         # print("token=", token)
-        return jsonRes(msg="用户登录成功", data={'token': token})  # TODO:返回身份
+        return jsonRes(msg="用户登录成功", data={
+            'token': token,
+            'role': u.role
+        })  # TODO:返回身份
     return jsonRes(code=RET.LOGINERR, msg="邮箱或密码错误")
 
 
@@ -79,7 +82,6 @@ def password_vericode():
         current_app.logger.debug("邮箱验证码为: " + email_code)
         # redis逻辑
         try:
-            print("###", u.email, email_code)
             redis_client.set("AUTHCODE:" + u.email, email_code, 300)
         except Exception as e:
             current_app.logger.debug(e)

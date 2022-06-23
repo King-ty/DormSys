@@ -73,7 +73,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Search, Edit, Setting, Delete } from '@element-plus/icons-vue'
-import { getUser, changeUserState, delUser } from '@/api/users'
+import { getUsers, changeUserState, delUser } from '@/api/users'
 import { options } from './options'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -131,12 +131,12 @@ const tableData = ref([])
 const total = ref(0)
 
 const initGetUsersList = async () => {
-  const res = await getUser(queryForm.value)
+  const res = await getUsers(queryForm.value)
   console.log(res)
   tableData.value = res.users
   total.value = res.total
 }
-initGetUsersList()
+// initGetUsersList()
 
 const handleSizeChange = (pageSize) => {
   queryForm.value.pagenum = 1

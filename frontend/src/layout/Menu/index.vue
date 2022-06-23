@@ -41,11 +41,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { menuList as menus } from './menuList'
 
 const iconList = ref(['user', 'setting', 'shop', 'tickets'])
 const icon = ref('menu')
 
-const menusList = ref([])
+const menusList = ref(menus)
 const defaultActive = ref(sessionStorage.getItem('path') || '/users')
 
 const savePath = (path) => {
