@@ -49,6 +49,9 @@ export default {
     placeholder: '请输入搜索的用户姓名'
   },
   message: {
+    addSuccess: '添加成功',
+    delSuccess: '删除成功',
+    delCancel: '取消删除',
     updeteSuccess: '更新成功',
     codeSuccess: '发送验证码成功',
     codeError: 'no项不正确'

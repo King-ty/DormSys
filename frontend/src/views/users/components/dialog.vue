@@ -108,13 +108,20 @@ const formRef = ref(null)
 const handleConfirm = async () => {
   await formRef.value.validate(async (valid, fields) => {
     if (valid) {
-      props.dialogType === typeAdd
-        ? await addUser(form.value)
-        : await editUser(form.value)
-      ElMessage({
-        message: i18n.global.t('message.updeteSuccess'),
-        type: 'success'
-      })
+      if (props.dialogType === typeAdd) {
+        await addUser(form.value)
+        ElMessage({
+          message: i18n.global.t('message.addSuccess'),
+          type: 'success'
+        })
+      } else {
+        await editUser(form.value)
+        ElMessage({
+          message: i18n.global.t('message.updeteSuccess'),
+          type: 'success'
+        })
+      }
+
       emits('getUsersList')
       handleClose()
     } else {

@@ -121,14 +121,13 @@ def edit_user(current_user):
 
     if not u:
         return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
-    u = Student(no=no,
-                name=name,
-                gender=gender,
-                email=email,
-                tel=tel,
-                major=major,
-                grade=grade,
-                classno=classno)
+    u.name = name
+    u.gender = gender
+    u.email = email
+    u.tel = tel
+    u.major = major
+    u.grade = grade
+    u.classno = classno
     try:
         db.session.merge(u)
         db.session.commit()
@@ -136,3 +135,29 @@ def edit_user(current_user):
         db.session.rollback()
         return jsonRes(code=RET.DBERR, msg="数据库错误")
     return jsonRes(msg="编辑用户成功")
+
+
+@user.route("/user/<no>", methods=["DELETE"])
+@token_required
+@admin_required
+def delete_user(current_user, no):
+    # 删除有点特殊！
+    # print(request.args, no)
+
+    if not all([no]):
+        return jsonRes(code=RET.PARAMERR, msg="参数不完整")
+    try:
+        u = getUser(no)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonRes(code=RET.DBERR, msg="用户查询失败")
+
+    if not u:
+        return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
+    try:
+        db.session.delete(u)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return jsonRes(code=RET.DBERR, msg="数据库错误")
+    return jsonRes(msg="删除用户成功")

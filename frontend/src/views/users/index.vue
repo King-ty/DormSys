@@ -75,32 +75,32 @@ import { useI18n } from 'vue-i18n'
 import Dialog from './components/dialog'
 // import { isNull } from '@/utils/filters'
 
+const i18n = useI18n()
+
 const typeAdd = 0
 const typeEdit = 1
 
 const deleteUser = (row) => {
   ElMessageBox.confirm(i18n.t('dialog.deleteTitle'), 'Warning', {
-    confirmButtonText: 'OK',
-    cancelButtonText: 'Cancel',
+    confirmButtonText: i18n.t('dialog.confirm'),
+    cancelButtonText: i18n.t('dialog.cancel'),
     type: 'warning'
   })
     .then(async () => {
-      await delUser(row.id)
+      await delUser(row.no)
       initGetUsersList()
       ElMessage({
         type: 'success',
-        message: 'Delete completed'
+        message: i18n.t('message.delSuccess')
       })
     })
     .catch(() => {
       ElMessage({
         type: 'info',
-        message: 'Delete canceled'
+        message: i18n.t('message.delCancel')
       })
     })
 }
-
-const i18n = useI18n()
 
 const queryForm = ref({
   query: '',

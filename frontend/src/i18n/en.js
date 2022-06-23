@@ -49,6 +49,9 @@ export default {
     placeholder: 'Please enter a user name to search for'
   },
   message: {
+    addSuccess: 'add successfully',
+    delSuccess: 'delete successfully',
+    delCancel: 'delete canceld',
     updeteSuccess: 'update successfully',
     codeSuccess: 'send verification code successfully',
     codeError: 'error user no'

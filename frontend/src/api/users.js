@@ -23,8 +23,9 @@ export const editUser = (data) => {
 }
 
 export const delUser = (id) => {
+  // 删除有点特殊！
   return request({
-    url: `users/${id}`,
+    url: prefix + `user/${id}`,
     method: 'delete'
   })
 }
