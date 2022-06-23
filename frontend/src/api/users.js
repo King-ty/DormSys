@@ -1,14 +1,9 @@
 import request from './request'
 
-export const getUsers = (params) => {
-  return request({ url: 'users', params })
-}
+const prefix = 'user/'
 
-export const changeUserState = (uid, type) => {
-  return request({
-    url: `users/${uid}/state/${type}`,
-    method: 'put'
-  })
+export const getUsers = (params) => {
+  return request({ url: prefix + 'get-users', params })
 }
 
 export const addUser = (data) => {

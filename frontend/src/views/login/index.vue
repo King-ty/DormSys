@@ -56,8 +56,8 @@ const i18n = useI18n()
 const store = useStore()
 
 const form = ref({
-  no: '1950001',
-  password: '123456'
+  no: '123',
+  password: '123'
 })
 
 const rules = ref({

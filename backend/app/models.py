@@ -31,6 +31,9 @@ class Student(User, db.Model):
     classno = db.Column(db.SmallInteger, nullable=False)  # eg:1
     profile = db.Column(db.Text)
 
+    building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))
+    dorm_id = db.Column(db.Integer, db.ForeignKey("dormitories.id"))
+
     def __repr__(self):
         return "<Student %r>" % self.name
 
@@ -40,6 +43,8 @@ class Admin(User, db.Model):
 
     role = db.Column(db.SmallInteger, default=1, nullable=False)
 
+    building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))
+
     def __repr__(self):
         return "<Administrator %r>" % self.name
 
@@ -47,8 +52,8 @@ class Admin(User, db.Model):
 class Building(db.Model):
     __tablename__ = "buildings"
 
-    id = db.Column(db.SmallInteger, primary_key=True)
-    name = db.Column(db.String(16), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)  # 主键自增对SmallInteger无效！
+    name = db.Column(db.String(32), nullable=False)
     gender = db.Column(db.String(1), nullable=False)
     is_bed_on_table = db.Column(db.Boolean, nullable=False)
     is_independent_bathroom = db.Column(db.Boolean, nullable=False)
@@ -57,6 +62,8 @@ class Building(db.Model):
     dormitories = db.relationship("Dormitory",
                                   backref="building",
                                   lazy="dynamic")
+    students = db.relationship("Student", backref="building", lazy="dynamic")
+    admin = db.relationship("Admin", backref="building", lazy="dynamic")
 
     def __repr__(self):
         return "<Building %r>" % self.name
@@ -66,9 +73,11 @@ class Dormitory(db.Model):
     __tablename__ = "dormitories"
 
     id = db.Column(db.Integer, primary_key=True)  # 额外抽象出一个主键
-    building_id = db.Column(db.SmallInteger, db.ForeignKey("buildings.id"))
     no = db.Column(db.String(10))
     max_number = db.Column(db.SmallInteger, nullable=False)
+
+    building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))
+    students = db.relationship("Student", backref="dormitory", lazy="dynamic")
 
     def __repr__(self):
         return "<Dormitory %r>" % (self.building_id + "-" + self.no)

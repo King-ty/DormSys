@@ -1,19 +1,19 @@
 <template>
   <el-card>
     <el-row :gutter="20">
-      <el-col :span="7">
+      <el-col :span="8">
         <el-input
           :placeholder="$t('table.placeholder')"
           clearable
           v-model="queryForm.query"
         ></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search" @click="initGetUsersList">{{
-        $t('table.search')
-      }}</el-button>
-      <el-button type="primary" @click="handleDialogValue">{{
-        $t('table.adduser')
-      }}</el-button>
+      <el-button type="primary" :icon="Search" @click="initGetUsersList">
+        {{ $t('table.search') }}
+      </el-button>
+      <el-button type="primary" @click="handleDialogValue">
+        {{ $t('table.adduser') }}
+      </el-button>
     </el-row>
   </el-card>
   <el-card>
@@ -24,28 +24,23 @@
         :label="$t(`table.${item.label}`)"
         v-for="(item, index) in options"
         :key="index"
+        :min-width="item.width"
+        align="center"
       >
-        <!-- :width="item.width" -->
-        <template v-slot="{ row }" v-if="item.prop === 'mg_state'">
-          <el-switch v-model="row.mg_state" @click="changeState(row)" />
-        </template>
-        <template v-slot="{ row }" v-else-if="item.prop === 'create_time'">
-          {{ $filters.filterTime(row.create_time) }}
-        </template>
-        <template #default="{ row }" v-else-if="item.prop === 'action'">
+        <template #default="{ row }" v-if="item.prop === 'action'">
           <el-button
             type="primary"
             size="small"
             :icon="Edit"
             @click="handleDialogValue(row)"
           ></el-button>
-          <el-button type="success" size="small" :icon="Setting"></el-button>
           <el-button
             type="danger"
             size="small"
             :icon="Delete"
             @click="deleteUser(row)"
           ></el-button>
+          <el-button type="success" size="small" :icon="InfoFilled"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -72,8 +67,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Search, Edit, Setting, Delete } from '@element-plus/icons-vue'
-import { getUsers, changeUserState, delUser } from '@/api/users'
+import { Search, Edit, InfoFilled, Delete } from '@element-plus/icons-vue'
+import { getUsers, delUser } from '@/api/users'
 import { options } from './options'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -136,7 +131,7 @@ const initGetUsersList = async () => {
   tableData.value = res.users
   total.value = res.total
 }
-// initGetUsersList()
+initGetUsersList()
 
 const handleSizeChange = (pageSize) => {
   queryForm.value.pagenum = 1
@@ -147,14 +142,6 @@ const handleSizeChange = (pageSize) => {
 const handleCurrentChange = (pageNum) => {
   queryForm.value.pagenum = pageNum
   initGetUsersList()
-}
-
-const changeState = async (info) => {
-  await changeUserState(info.id, info.mg_state)
-  ElMessage({
-    message: i18n.t('message.updeteSuccess'),
-    type: 'success'
-  })
 }
 </script>
 

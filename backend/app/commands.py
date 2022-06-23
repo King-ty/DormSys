@@ -1,6 +1,6 @@
 import click
 from . import app, db
-from .models import Student
+from .models import Student, Admin, Building
 
 
 @app.cli.command()
@@ -30,9 +30,34 @@ def db_init():
                       classno=1,
                       profile="我太帅了",
                       tel="12345679999",
-                      email="renxin-ty@qq.com")
+                      email="renxin-ty@qq.com",
+                      building_id=1)  # 主键从1开始
 
-    db.session.add(student)
-    db.session.commit()
+    admin = Admin(no="123",
+                  name="管理",
+                  role=0,
+                  password="123",
+                  tel="12345678910",
+                  email="guan@li.com")
 
-    click.echo("创建成功")
+    admin1 = Admin(no="1234",
+                   name="管理",
+                   password="123",
+                   tel="12345678910",
+                   email="guan@li1.com",
+                   building_id=1)
+
+    building = Building(name="友园7号楼",
+                        gender='男',
+                        is_bed_on_table=True,
+                        is_independent_bathroom=True,
+                        profile="楼里全是帅哥")
+
+    try:
+        db.session.add_all([student, admin, admin1, building])
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        click.echo(e)
+    else:
+        click.echo("创建成功")

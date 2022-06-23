@@ -14,7 +14,13 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = "[TJ-MoralSys]"
     FLASKY_MAIL_SENDER = "TJ-MoralSys Admin <1595606114@qq.com>"
     # FLASKY_ADMIN = os.environ.get("FLASKY_ADMIN")
+    # 设置sqlalchemy不自动更跟踪数据库
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # 禁止自动提交数据处理
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = False
+    # 查询时会显示原始SQL语句
+    SQLALCHEMY_ECHO = True
+
     JSON_AS_ASCII = False
 
     REDIS_URL = os.environ.get("REDIS_URL") or "redis:///localhost:6379/1"
