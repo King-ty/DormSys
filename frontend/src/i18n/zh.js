@@ -19,10 +19,8 @@ export default {
   },
   dialog: {
     deleteTitle: '确定要删除用户',
-    username: '用户名',
-    password: '密码',
-    email: '邮箱',
-    mobile: '手机',
+    addUserTitle: '添加用户',
+    editUserTitle: '编辑用户',
     vericode: '验证码',
     newPassword: '新密码',
     confirmPassword: '确认密码',
@@ -32,7 +30,10 @@ export default {
   table: {
     no: '学号',
     name: '姓名',
+    password: '密码',
     gender: '性别',
+    male: '男',
+    female: '女',
     tel: '电话',
     major: '专业',
     grade: '年级',
@@ -49,7 +50,8 @@ export default {
   },
   message: {
     updeteSuccess: '更新成功',
-    codeSuccess: '发送验证码成功'
+    codeSuccess: '发送验证码成功',
+    codeError: 'no项不正确'
   },
   driver: {
     doneBtnText: '完成',

@@ -19,7 +19,8 @@ class Config:
     # 禁止自动提交数据处理
     SQLALCHEMY_COMMIT_ON_TEARDOWN = False
     # 查询时会显示原始SQL语句
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = os.environ.get("SQLALCHEMY_ECHO").lower() in ("true",
+                                                                    "on", "1")
 
     JSON_AS_ASCII = False
 

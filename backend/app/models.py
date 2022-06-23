@@ -8,7 +8,7 @@ class User:
     password_hash = db.Column(db.String(128), nullable=False)  # 存储加密字符串
     gender = db.Column(db.String(1))  # 可空
     tel = db.Column(db.String(20))
-    email = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String(64), unique=True)
 
     @property
     def password(self):
@@ -26,9 +26,9 @@ class Student(User, db.Model):
     __tablename__ = "students"
 
     role = db.Column(db.SmallInteger, default=2, nullable=False)
-    major = db.Column(db.String(30), nullable=False)
-    grade = db.Column(db.SmallInteger, nullable=False)  # eg:2019
-    classno = db.Column(db.SmallInteger, nullable=False)  # eg:1
+    major = db.Column(db.String(30))
+    grade = db.Column(db.SmallInteger)  # eg:2019
+    classno = db.Column(db.SmallInteger)  # eg:1
     profile = db.Column(db.Text)
 
     building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))

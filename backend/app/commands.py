@@ -24,7 +24,7 @@ def db_init():
     student = Student(no="1950001",
                       name="刃心",
                       password="123456",
-                      gender="M",
+                      gender="男",
                       major="数据库",
                       grade=2019,
                       classno=1,

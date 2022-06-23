@@ -1,7 +1,8 @@
 from flask import request, current_app
 from . import user
+from .. import db
 from ..response import RET, jsonRes
-from ..utilities import token_required, admin_required
+from ..utilities import token_required, admin_required, getUser
 from sqlalchemy import or_, and_
 from ..models import Student
 from .utilities import user_to_dict
@@ -50,3 +51,46 @@ def get_users(current_user):
         return jsonRes(code=RET.DBERR, msg="数据库查询错误")
     users_dict = list(map(user_to_dict, users))
     return jsonRes(msg="获取用户列表成功", data={"users": users_dict, "total": total})
+
+
+@user.route("/user", methods=["POST"])
+@token_required
+@admin_required
+def add_user(current_user):
+    data = request.json
+    no = data.get("no")
+    name = data.get("name")
+    password = data.get("password")
+    gender = data.get("gender")
+    email = data.get("email")
+    tel = data.get("tel")
+    major = data.get("major")
+    grade = data.get("grade")
+    classno = data.get("classno")
+
+    if not all([no, name, password, gender]):
+        return jsonRes(code=RET.PARAMERR, msg="参数不完整")
+    try:
+        u = getUser(no)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonRes(code=RET.DBERR, msg="用户查询失败")
+
+    if u:
+        return jsonRes(code=RET.DATAEXIST, msg="用户已存在")
+    u = Student(no=no,
+                name=name,
+                password=password,
+                gender=gender,
+                email=email,
+                tel=tel,
+                major=major,
+                grade=grade,
+                classno=classno)
+    try:
+        db.session.add(u)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return jsonRes(code=RET.DBERR, msg="数据库错误")
+    return jsonRes(msg="添加用户成功")

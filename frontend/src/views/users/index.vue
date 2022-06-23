@@ -11,7 +11,7 @@
       <el-button type="primary" :icon="Search" @click="initGetUsersList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button type="primary" @click="handleDialogValue">
+      <el-button type="primary" @click.prevent="handleDialogValue()">
         {{ $t('table.adduser') }}
       </el-button>
     </el-row>
@@ -58,7 +58,7 @@
   />
   <Dialog
     v-model="dialogVisible"
-    :dialogTitle="dialogTitle"
+    :dialogType="dialogType"
     :dialogTable="dialogTable"
     @getUsersList="initGetUsersList"
   ></Dialog>
@@ -74,6 +74,9 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import Dialog from './components/dialog'
 // import { isNull } from '@/utils/filters'
+
+const typeAdd = 0
+const typeEdit = 1
 
 const deleteUser = (row) => {
   ElMessageBox.confirm(i18n.t('dialog.deleteTitle'), 'Warning', {
@@ -107,19 +110,22 @@ const queryForm = ref({
 
 const dialogVisible = ref(false)
 
-const dialogTitle = ref('')
+const dialogType = ref(0)
 
 const dialogTable = ref({})
+// 0: 添加用户 1: 编辑用户
 
 const handleDialogValue = (row) => {
+  // console.log(111, row)
   if (!row) {
-    dialogTitle.value = '添加用户' // 国际化！
-    dialogTable.value = {}
+    dialogType.value = typeAdd
+    dialogTable.value = { gender: '男', password: '123456' }
   } else {
-    dialogTitle.value = '编辑用户' // 国际化！
+    dialogType.value = typeEdit
     dialogTable.value = JSON.parse(JSON.stringify(row))
   }
   dialogVisible.value = true
+  // console.log(222, dialogType.value)
 }
 
 const tableData = ref([])
@@ -127,7 +133,7 @@ const total = ref(0)
 
 const initGetUsersList = async () => {
   const res = await getUsers(queryForm.value)
-  console.log(res)
+  // console.log(res)
   tableData.value = res.users
   total.value = res.total
 }

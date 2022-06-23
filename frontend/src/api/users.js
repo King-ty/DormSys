@@ -8,7 +8,7 @@ export const getUsers = (params) => {
 
 export const addUser = (data) => {
   return request({
-    url: 'users',
+    url: prefix + 'user',
     method: 'post',
     data
   })

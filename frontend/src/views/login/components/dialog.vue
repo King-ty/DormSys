@@ -33,6 +33,7 @@ import { defineEmits, defineProps, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { resetPassword } from '@/api/login'
 import i18n from '@/i18n'
+import formRules from '@/utils/formRules'
 
 const props = defineProps({
   dialogVisible: {
@@ -94,21 +95,14 @@ const validatePass2 = (rule, value, callback) => {
 }
 
 const rules = ref({
-  vericode: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    { min: 6, max: 6, message: 'Length should be 6', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: 'Please input password', trigger: 'blur' },
-    { min: 3, max: 16, message: 'Length should be 3 to 16', trigger: 'blur' }
-  ],
+  vericode: formRules.vericode,
+  password: formRules.password,
   password2: [
     {
       required: true,
       validator: validatePass2,
       trigger: 'blur'
-    },
-    { min: 3, max: 16, message: 'Length should be 3 to 16', trigger: 'blur' }
+    }
   ]
 })
 </script>

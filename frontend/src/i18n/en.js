@@ -19,10 +19,8 @@ export default {
   },
   dialog: {
     deleteTitle: 'Are you sure you want to delete the user ',
-    username: 'username',
-    password: 'password',
-    email: 'email',
-    mobile: 'mobile',
+    addUserTitle: 'Add User',
+    editUserTitle: 'Edit User',
     vericode: 'code',
     newPassword: 'new password',
     confirmPassword: 'confirm password',
@@ -32,7 +30,10 @@ export default {
   table: {
     no: 'no',
     name: 'name',
+    password: 'password',
     gender: 'gender',
+    male: 'male',
+    female: 'female',
     tel: 'tel',
     major: 'major',
     grade: 'grade',
@@ -49,7 +50,8 @@ export default {
   },
   message: {
     updeteSuccess: 'update successfully',
-    codeSuccess: 'send verification code successfully'
+    codeSuccess: 'send verification code successfully',
+    codeError: 'error user no'
   },
   driver: {
     doneBtnText: 'done',

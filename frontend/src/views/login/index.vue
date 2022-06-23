@@ -50,6 +50,7 @@ import { ElMessage } from 'element-plus'
 import { passwordVeriCode } from '@/api/login'
 import { useI18n } from 'vue-i18n'
 import Dialog from './components/dialog'
+import formRules from '@/utils/formRules'
 
 const i18n = useI18n()
 
@@ -62,20 +63,8 @@ const form = ref({
 
 const rules = ref({
   // TODO:国际化+限定内容检查
-  no: [
-    {
-      required: true,
-      message: 'Please input Activity username',
-      trigger: 'blur'
-    }
-  ],
-  password: [
-    {
-      required: true,
-      message: 'Please input Activity password',
-      trigger: 'blur'
-    }
-  ]
+  no: formRules.no,
+  password: formRules.password
 })
 
 const ruleFormRef = ref()
@@ -103,7 +92,10 @@ const handleForgetPassword = async () => {
         message: i18n.t('message.codeSuccess')
       })
     } else {
-      console.log('error no!')
+      ElMessage({
+        type: 'error',
+        message: i18n.t('message.codeError')
+      })
     }
   })
 }
