@@ -1,9 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
-from . import db, login_manager
+from . import db
 
 
-class User(UserMixin):
+class User:
     @property
     def password(self):
         raise AttributeError("password is not a readable attribute")
@@ -14,9 +13,6 @@ class User(UserMixin):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
-
-    def get_id(self):  # 可能要重写
-        return str(self.no)
 
 
 class Student(User, db.Model):
@@ -31,9 +27,7 @@ class Student(User, db.Model):
     classno = db.Column(db.SmallInteger, nullable=False)  # eg:2019
     profile = db.Column(db.Text)
     tel = db.Column(db.String(20))
-
-    def get_id(self):
-        return "0#" + str(self.no)
+    email = db.Column(db.String(64), unique=True, index=True)
 
     def __repr__(self):
         return "<Student %r>" % self.name
@@ -49,9 +43,6 @@ class Admin(User, db.Model):
     tel = db.Column(db.String(20))
     is_chief = db.Column(db.Boolean)
 
-    def get_id(self):
-        return "1#" + str(self.no)
-
     def __repr__(self):
         return "<Administrator %r>" % self.name
 
@@ -66,7 +57,9 @@ class Building(db.Model):
     is_independent_bathroom = db.Column(db.Boolean, nullable=False)
     profile = db.Column(db.Text)
 
-    dormitories = db.relationship("Dormitory", backref="building", lazy="dynamic")
+    dormitories = db.relationship("Dormitory",
+                                  backref="building",
+                                  lazy="dynamic")
 
     def __repr__(self):
         return "<Building %r>" % self.name
@@ -87,27 +80,31 @@ class Dormitory(db.Model):
 class Score(db.Model):
     __tablename__ = "scores"
 
-    dorm_id = db.Column(db.Integer, db.ForeignKey("dormitories.id"), primary_key=True)
-    work_no = db.Column(
-        db.String(16), db.ForeignKey("administrators.no"), primary_key=True
-    )
+    id = db.Column(db.Integer, primary_key=True)
+    dorm_id = db.Column(db.Integer,
+                        db.ForeignKey("dormitories.id"),
+                        primary_key=True)
+    work_no = db.Column(db.String(16),
+                        db.ForeignKey("administrators.no"),
+                        primary_key=True)
     time = db.Column(db.DateTime, primary_key=True)
     score = db.Column(db.SmallInteger, nullable=False)
     check_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表检查
     profile = db.Column(db.Text)
 
     def __repr__(self):
-        return "<Score %r>" % (
-            "宿舍ID：" + self.dorm_id + " 工号：" + self.work_no + " 时间：" + self.time
-        )
+        return "<Score %r>" % ("宿舍ID：" + self.dorm_id + " 工号：" + self.work_no +
+                               " 时间：" + self.time)
 
 
 class Request(db.Model):
     __tablename__ = "requests"
 
-    stu_no = db.Column(
-        db.String(16), db.ForeignKey("students.no"), primary_key=True, index=True
-    )
+    id = db.Column(db.Integer, primary_key=True)
+    stu_no = db.Column(db.String(16),
+                       db.ForeignKey("students.no"),
+                       primary_key=True,
+                       index=True)
     propose_time = db.Column(db.DateTime, primary_key=True)
     req_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表请求
     content = db.Column(db.Text, nullable=False)
@@ -115,64 +112,61 @@ class Request(db.Model):
     handle_profile = db.Column(db.Text)
 
     def __repr__(self):
-        return "<Request %r>" % ("学号：" + self.stu_no + " 提出时间：" + self.propose_time)
+        return "<Request %r>" % ("学号：" + self.stu_no + " 提出时间：" +
+                                 self.propose_time)
 
 
 class Notice(db.Model):
     __tablename__ = "notices"
 
-    work_no = db.Column(
-        db.String(16), db.ForeignKey("administrators.no"), primary_key=True, index=True
-    )
+    id = db.Column(db.Integer, primary_key=True)
+    work_no = db.Column(db.String(16),
+                        db.ForeignKey("administrators.no"),
+                        primary_key=True,
+                        index=True)
     notice_time = db.Column(db.DateTime, primary_key=True)
     notice_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表公告
     content = db.Column(db.Text, nullable=False)
+
     # profile = db.Column(db.Text)
 
     def __repr__(self):
-        return "<Notice %r>" % ("工号：" + self.work_no + " 发布时间：" + self.notice_time)
+        return "<Notice %r>" % ("工号：" + self.work_no + " 发布时间：" +
+                                self.notice_time)
 
 
 class Violation(db.Model):
     __tablename__ = "violations"
 
-    stu_no = db.Column(
-        db.String(16), db.ForeignKey("students.no"), primary_key=True, index=True
-    )
+    id = db.Column(db.Integer, primary_key=True)
+    stu_no = db.Column(db.String(16),
+                       db.ForeignKey("students.no"),
+                       primary_key=True,
+                       index=True)
     violate_time = db.Column(db.DateTime, primary_key=True)
-    violate_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表违纪
+    violate_type = db.Column(db.SmallInteger,
+                             nullable=False)  # TODO:编写枚举类型代表违纪
     profile = db.Column(db.Text)
 
     def __repr__(self):
-        return "<Notice %r>" % (
-            "学号："
-            + self.stu_no
-            + " 违纪时间："
-            + self.violate_time
-            + " 违纪类型："
-            + self.violate_type
-        )
+        return "<Notice %r>" % ("学号：" + self.stu_no + " 违纪时间：" +
+                                self.violate_time + " 违纪类型：" +
+                                self.violate_type)
 
 
 class Payment(db.Model):
     __tablename__ = "payments"
 
-    stu_no = db.Column(
-        db.String(16), db.ForeignKey("students.no"), primary_key=True, index=True
-    )
+    id = db.Column(db.Integer, primary_key=True)
+    stu_no = db.Column(db.String(16),
+                       db.ForeignKey("students.no"),
+                       primary_key=True,
+                       index=True)
     pay_time = db.Column(db.DateTime, primary_key=True)
     pay_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表违纪
     amount = db.Column(db.Integer, nullable=False)
     profile = db.Column(db.Text)
 
     def __repr__(self):
-        return "<Notice %r>" % (
-            "学号：" + self.stu_no + " 缴费时间：" + self.pay_time + " 缴费类型：" + self.pay_type
-        )
-
-
-@login_manager.user_loader
-def load_user(id):
-    if id[0] == "0":
-        return Student.query.get(id[2:])
-    return Admin.query.get(id[2:])
+        return "<Notice %r>" % ("学号：" + self.stu_no + " 缴费时间：" +
+                                self.pay_time + " 缴费类型：" + self.pay_type)

@@ -5,9 +5,9 @@
         <h3 class="title">{{ $t('login.title') }}</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="no">
         <svg-icon icon="user" class="svg-container"></svg-icon>
-        <el-input v-model="form.username" />
+        <el-input v-model="form.no" />
       </el-form-item>
 
       <el-form-item prop="password">
@@ -36,12 +36,13 @@ import { useStore } from 'vuex'
 const store = useStore()
 
 const form = ref({
-  username: 'admin',
+  no: '1950001',
   password: '123456'
 })
 
 const rules = ref({
-  username: [
+  // TODO:国际化+限定内容检查
+  no: [
     {
       required: true,
       message: 'Please input Activity username',
