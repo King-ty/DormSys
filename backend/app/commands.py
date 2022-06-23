@@ -21,17 +21,16 @@ def db_init():
     """创建数据库"""
     db.drop_all()
     db.create_all()
-    student = Student(
-        no="1950001",
-        name="刃心",
-        password="123456",
-        gender="M",
-        major="数据库",
-        grade=2019,
-        classno=1,
-        profile="我太帅了",
-        tel="12345679999",
-    )
+    student = Student(no="1950001",
+                      name="刃心",
+                      password="123456",
+                      gender="M",
+                      major="数据库",
+                      grade=2019,
+                      classno=1,
+                      profile="我太帅了",
+                      tel="12345679999",
+                      email="renxin-ty@qq.com")
 
     db.session.add(student)
     db.session.commit()

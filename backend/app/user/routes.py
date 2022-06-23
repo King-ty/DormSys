@@ -61,9 +61,9 @@ def change_password(current_user):
         return jsonRes(code=RET.PWDERR, msg="原密码错误")
 
 
-@user.route("/forget-password", methods=["POST"])
-def forgetpwd():
-    data = request.get_json()
+@user.route("/password-vericode", methods=["GET"])
+def password_vericode():
+    data = request.args
     no = data.get("no")
 
     if not all([no]):
@@ -75,12 +75,13 @@ def forgetpwd():
         current_app.logger.debug(e)
         return jsonRes(code=RET.DBERR, msg="数据库查询错误")
 
-    if u:
-        email_code = "%08d" % random.randint(0, 99999999)
+    if u and u.email:
+        email_code = "%06d" % random.randint(0, 999999)
         current_app.logger.debug("邮箱验证码为: " + email_code)
         # redis逻辑
         try:
-            redis_client.set("AUTHCODE:" + u.email, email_code, 60)
+            print("###", u.email, email_code)
+            redis_client.set("AUTHCODE:" + u.email, email_code, 300)
         except Exception as e:
             current_app.logger.debug(e)
             return jsonRes(code=RET.DBERR, msg="存储邮箱验证码失败")
@@ -89,7 +90,7 @@ def forgetpwd():
             u.email,
             "请查收验证码",
             "mail/send_code",
-            username=u.username,
+            username=u.name,
             email_code=email_code,
             info="修改密码",
             time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -99,29 +100,34 @@ def forgetpwd():
         return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
 
 
-# @user.route("/set-password", methods=["POST"])
-# def setpwd():
-#     data = request.get_json()
-#     email = data.get("email")
-#     password = data.get("password")
-#     authcode = data.get("authcode")
+@user.route("/reset-password", methods=["POST"])
+def reset_password():
+    data = request.json
+    no = data.get("no")
+    password = data.get("password")
+    vericode = data.get("vericode")
 
-#     u = User.query.filter_by(email=email).first()
-#     try:
-#         authcode_server = redis_client.get("AUTHCODE:" + email)
-#     except Exception as e:
-#         current_app.logger.debug(e)
-#         return jsonify(code=RET.DBERR, msg="验证码查询失败")
-
-#     if u:
-#         if authcode_server == authcode:
-#             u.password = password
-#             try:
-#                 db.session.commit()
-#                 return jsonify({"code": RET.OK, "msg": "修改密码成功"})
-#             except Exception as e:
-#                 current_app.logger.debug(e)
-#                 db.session.rollback()  # commit失败需要回滚
-#         else:
-#             return jsonify(code=RET.PARAMERR, msg="验证码错误")
-#     return jsonify({"code": RET.DATANOTEXIST, "msg": "邮箱不存在或者其他错误"})
+    try:
+        u = getUser(no)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonRes(code=RET.DBERR, msg="数据库查询错误")
+    if u and u.email:
+        try:
+            authcode_server = redis_client.get("AUTHCODE:" + u.email)
+        except Exception as e:
+            current_app.logger.debug(e)
+            return jsonRes(code=RET.DBERR, msg="验证码查询失败")
+        if authcode_server == vericode:
+            u.password = password
+            try:
+                db.session.merge(u)
+                db.session.commit()
+                return jsonRes(msg="修改密码成功")
+            except Exception as e:
+                current_app.logger.debug(e)
+                db.session.rollback()  # commit失败需要回滚
+                return jsonRes(code=RET.DBERR, msg="数据库更新错误")
+        else:
+            return jsonRes(code=RET.PARAMERR, msg="验证码错误")
+    return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")

@@ -20,7 +20,12 @@ export default {
     username: '用户名',
     password: '密码',
     email: '邮箱',
-    mobile: '手机'
+    mobile: '手机',
+    vericode: '验证码',
+    newPassword: '新密码',
+    confirmPassword: '确认密码',
+    confirm: '确定',
+    cancel: '取消'
   },
   table: {
     username: '姓名',
@@ -35,7 +40,8 @@ export default {
     placeholder: '请输入搜索的用户姓名'
   },
   message: {
-    updeteSuccess: '更新成功'
+    updeteSuccess: '更新成功',
+    codeSuccess: '发送验证码成功'
   },
   driver: {
     doneBtnText: '完成',

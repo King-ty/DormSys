@@ -18,20 +18,35 @@
           @click="changeType"
         ></svg-icon> -->
       </el-form-item>
-
       <el-button
         type="primary"
         class="login-button"
         @click="handleLogin(ruleFormRef)"
-        >{{ $t('login.btnTitle') }}</el-button
       >
+        {{ $t('login.btnTitle') }}
+      </el-button>
+
+      <a
+        href="forget-password"
+        @click.prevent="handleForgetPassword"
+        class="click-link"
+      >
+        忘记密码？
+      </a>
     </el-form>
+    <Dialog v-model="dialogVisible" :no="form.no"></Dialog>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
+import { passwordVeriCode } from '@/api/login'
+import { useI18n } from 'vue-i18n'
+import Dialog from './components/dialog'
+
+const i18n = useI18n()
 
 const store = useStore()
 
@@ -67,6 +82,23 @@ const handleLogin = async (formEl) => {
       store.dispatch('app/login', form.value)
     } else {
       console.log('error submit!', fields)
+    }
+  })
+}
+
+const dialogVisible = ref(false)
+
+const handleForgetPassword = async () => {
+  await ruleFormRef.value.validateField('no', async (error) => {
+    if (!error) {
+      dialogVisible.value = true
+      await passwordVeriCode(form.value.no)
+      ElMessage({
+        type: 'success',
+        message: i18n.t('message.codeSuccess')
+      })
+    } else {
+      console.log('error no!')
     }
   })
 }
@@ -172,15 +204,14 @@ $cursor: #fff;
       cursor: pointer;
     }
   }
-
-  .show-pwd {
-    // position: absolute;
-    // right: 10px;
-    // top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
+  .click-link {
+    padding: 16px;
+    text-align: right;
+    display: block;
+    color: $light_gray;
+    &:hover {
+      color: $dark_gray;
+    }
   }
 }
 </style>

@@ -20,7 +20,12 @@ export default {
     username: 'username',
     password: 'password',
     email: 'email',
-    mobile: 'mobile'
+    mobile: 'mobile',
+    vericode: 'code',
+    newPassword: 'new password',
+    confirmPassword: 'confirm password',
+    confirm: 'confirm',
+    cancel: 'cancel'
   },
   table: {
     username: 'username',
@@ -35,7 +40,8 @@ export default {
     placeholder: 'Please enter a user name to search for'
   },
   message: {
-    updeteSuccess: 'update successfully'
+    updeteSuccess: 'update successfully',
+    codeSuccess: 'send verification code successfully'
   },
   driver: {
     doneBtnText: 'done',

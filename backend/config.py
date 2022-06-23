@@ -17,7 +17,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JSON_AS_ASCII = False
 
-    REDIS_URL = os.environ.get("REDIS_URL") or "redis:///localhost:6379/0"
+    REDIS_URL = os.environ.get("REDIS_URL") or "redis:///localhost:6379/1"
 
     @staticmethod
     def init_app(app):
@@ -39,8 +39,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL"
-    ) or "sqlite:///" + os.path.join(basedir, "data.sqlite")
+        "DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "data.sqlite")
 
 
 config = {
