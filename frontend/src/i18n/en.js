@@ -13,7 +13,9 @@ export default {
   },
   login: {
     title: 'user login',
-    btnTitle: 'login'
+    btnTitle: 'login',
+    noPlace: 'Please enter your number',
+    passwordPlace: 'Please enter your password'
   },
   dialog: {
     deleteTitle: 'Are you sure you want to delete the user ',

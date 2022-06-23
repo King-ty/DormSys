@@ -1,7 +1,6 @@
-from flask import request, current_app, make_response
+from flask import request, current_app
 from . import user
 from .. import db, redis_client
-from ..models import Student, Admin
 from ..response import RET, jsonRes
 from datetime import datetime, timedelta
 from ..utilities import token_required, getUser

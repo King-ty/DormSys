@@ -3,6 +3,13 @@ from . import db
 
 
 class User:
+    no = db.Column(db.String(16), primary_key=True, index=True)
+    name = db.Column(db.String(32), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)  # 存储加密字符串
+    gender = db.Column(db.String(1))  # 可空
+    tel = db.Column(db.String(20))
+    email = db.Column(db.String(64), unique=True, index=True)
+
     @property
     def password(self):
         raise AttributeError("password is not a readable attribute")
@@ -18,16 +25,11 @@ class User:
 class Student(User, db.Model):
     __tablename__ = "students"
 
-    no = db.Column(db.String(16), primary_key=True, index=True)
-    name = db.Column(db.String(32), nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)  # 存储加密字符串
-    gender = db.Column(db.String(1), nullable=False)
+    role = db.Column(db.SmallInteger, default=2, nullable=False)
     major = db.Column(db.String(30), nullable=False)
     grade = db.Column(db.SmallInteger, nullable=False)  # eg:2019
-    classno = db.Column(db.SmallInteger, nullable=False)  # eg:2019
+    classno = db.Column(db.SmallInteger, nullable=False)  # eg:1
     profile = db.Column(db.Text)
-    tel = db.Column(db.String(20))
-    email = db.Column(db.String(64), unique=True, index=True)
 
     def __repr__(self):
         return "<Student %r>" % self.name
@@ -36,12 +38,7 @@ class Student(User, db.Model):
 class Admin(User, db.Model):
     __tablename__ = "administrators"
 
-    no = db.Column(db.String(16), primary_key=True, index=True)
-    name = db.Column(db.String(32), nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)  # 存储加密字符串
-    gender = db.Column(db.String(1))  # 可空
-    tel = db.Column(db.String(20))
-    is_chief = db.Column(db.Boolean)
+    role = db.Column(db.SmallInteger, default=1, nullable=False)
 
     def __repr__(self):
         return "<Administrator %r>" % self.name

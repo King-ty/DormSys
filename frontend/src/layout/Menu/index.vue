@@ -40,18 +40,12 @@
 </template>
 
 <script setup>
-import { menuList } from '@/api/menu'
 import { ref } from 'vue'
 
 const iconList = ref(['user', 'setting', 'shop', 'tickets'])
 const icon = ref('menu')
 
 const menusList = ref([])
-const initMenuList = async () => {
-  menusList.value = await menuList()
-  console.log(menusList.value)
-}
-initMenuList()
 const defaultActive = ref(sessionStorage.getItem('path') || '/users')
 
 const savePath = (path) => {

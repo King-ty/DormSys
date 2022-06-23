@@ -13,7 +13,9 @@ export default {
   },
   login: {
     title: '用户登录',
-    btnTitle: '登录'
+    btnTitle: '登录',
+    noPlace: '请输入学号/工号',
+    passwordPlace: '请输入密码'
   },
   dialog: {
     deleteTitle: '确定要删除用户',

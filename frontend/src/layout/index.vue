@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import Menu from './Menu'
+import Menu from './menu'
 import Headers from './headers'
 import { computed } from 'vue'
 import { useStore } from 'vuex'

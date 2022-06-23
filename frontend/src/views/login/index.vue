@@ -7,12 +7,17 @@
 
       <el-form-item prop="no">
         <svg-icon icon="user" class="svg-container"></svg-icon>
-        <el-input v-model="form.no" />
+        <el-input v-model="form.no" :placeholder="$t('login.noPlace')" />
       </el-form-item>
 
       <el-form-item prop="password">
         <svg-icon icon="password" class="svg-container"></svg-icon>
-        <el-input v-model="form.password" type="password" show-password />
+        <el-input
+          v-model="form.password"
+          :placeholder="$t('login.passwordPlace')"
+          type="password"
+          show-password
+        />
         <!-- <svg-icon
           :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
           @click="changeType"
