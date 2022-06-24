@@ -40,7 +40,19 @@ def admin_required(f):
     @wraps(f)
     def wrapped_function(current_user, *args, **kwargs):
         u = current_user
-        if u.role != 2:
+        if u.role == 0:
+            return f(current_user, *args, **kwargs)
+        else:
+            return jsonRes(code=RET.AUTHERR, msg="用户没有此权限")
+
+    return wrapped_function
+
+
+def sub_admin_required(f):
+    @wraps(f)
+    def wrapped_function(current_user, *args, **kwargs):
+        u = current_user
+        if u.role == 0 or u.role == 1:
             return f(current_user, *args, **kwargs)
         else:
             return jsonRes(code=RET.AUTHERR, msg="用户没有此权限")

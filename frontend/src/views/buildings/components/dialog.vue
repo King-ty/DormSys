@@ -26,6 +26,9 @@
       >
         <el-switch v-model="form.is_independent_bathroom" />
       </el-form-item>
+      <el-form-item :label="$t('table.profile')" prop="profile">
+        <el-input v-model="form.profile" type="textarea" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -43,7 +46,7 @@
 <script setup>
 import { defineEmits, defineProps, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import { addUser, editUser } from '@/api/users'
+import { addBuilding, editBuilding } from '@/api/buildings'
 import i18n from '@/i18n'
 import formRules from '@/utils/formRules'
 
@@ -77,8 +80,7 @@ watch(
       props.dialogType === typeAdd
         ? i18n.global.t('dialog.addUserTitle')
         : i18n.global.t('dialog.editUserTitle')
-  },
-  { deep: true }
+  }
 )
 
 const emits = defineEmits(['update:modelValue', 'getBuildingsList'])
@@ -92,13 +94,13 @@ const handleConfirm = async () => {
   await formRef.value.validate(async (valid, fields) => {
     if (valid) {
       if (props.dialogType === typeAdd) {
-        await addUser(form.value)
+        await addBuilding(form.value)
         ElMessage({
           message: i18n.global.t('message.addSuccess'),
           type: 'success'
         })
       } else {
-        await editUser(form.value)
+        await editBuilding(form.value)
         ElMessage({
           message: i18n.global.t('message.updeteSuccess'),
           type: 'success'
@@ -114,15 +116,11 @@ const handleConfirm = async () => {
 }
 
 const form = ref({
-  no: '',
   name: '',
-  password: '',
   gender: '',
-  email: '',
-  tel: '',
-  major: '',
-  grade: '',
-  classno: ''
+  is_bed_on_table: false,
+  is_independent_bathroom: false,
+  profile: ''
 })
 
 watch(

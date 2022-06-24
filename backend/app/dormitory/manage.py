@@ -1,7 +1,7 @@
 from flask import request, current_app
 from . import dormitory
 from ..response import RET, jsonRes
-from ..utilities import token_required, admin_required
+from ..utilities import token_required, sub_admin_required
 # from .. import db
 # from sqlalchemy import or_, and_
 from ..models import Dormitory
@@ -10,7 +10,7 @@ from .utilities import dorm_to_dict, dorm_to_dict_select
 
 @dormitory.route("/get-dorms", methods=["GET"])
 @token_required
-@admin_required
+@sub_admin_required
 def get_dorms(current_user):
     data = request.args
     building_id = data.get("building_id")
@@ -56,7 +56,7 @@ def get_dorms(current_user):
 
 @dormitory.route("/get-dormitorySelects", methods=["GET"])
 @token_required
-@admin_required
+@sub_admin_required
 def get_dormitorySelects(current_user):
     data = request.args
     building_id = data.get("building_id")

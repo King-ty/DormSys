@@ -2,7 +2,7 @@ from flask import request, current_app
 from . import user
 from .. import db
 from ..response import RET, jsonRes
-from ..utilities import token_required, admin_required, getUser
+from ..utilities import token_required, admin_required, sub_admin_required, getUser
 from sqlalchemy import or_, and_
 from ..models import Student
 from .utilities import user_to_dict, user_to_dict_brief
@@ -10,7 +10,7 @@ from .utilities import user_to_dict, user_to_dict_brief
 
 @user.route("/get-users", methods=["GET"])
 @token_required
-@admin_required
+@sub_admin_required
 def get_users(current_user):
     data = request.args
     query = data.get("query", "")
@@ -55,7 +55,6 @@ def get_users(current_user):
 
 @user.route("/user", methods=["GET"])
 @token_required
-@admin_required
 def get_user(current_user):
     data = request.args
     no = data.get("no")
@@ -115,7 +114,8 @@ def add_user(current_user):
     try:
         db.session.add(u)
         db.session.commit()
-    except Exception:
+    except Exception as e:
+        current_app.logger.debug(e)
         db.session.rollback()
         return jsonRes(code=RET.DBERR, msg="数据库错误")
     return jsonRes(msg="添加用户成功")
@@ -160,7 +160,8 @@ def edit_user(current_user):
     try:
         db.session.merge(u)
         db.session.commit()
-    except Exception:
+    except Exception as e:
+        current_app.logger.debug(e)
         db.session.rollback()
         return jsonRes(code=RET.DBERR, msg="数据库错误")
     return jsonRes(msg="编辑用户成功")
@@ -186,7 +187,8 @@ def delete_user(current_user, no):
     try:
         db.session.delete(u)
         db.session.commit()
-    except Exception:
+    except Exception as e:
+        current_app.logger.debug(e)
         db.session.rollback()
         return jsonRes(code=RET.DBERR, msg="数据库错误")
     return jsonRes(msg="删除用户成功")
