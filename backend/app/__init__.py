@@ -38,6 +38,14 @@ def create_app(config_name):
 
     app.register_blueprint(user_blueprint, url_prefix="/api/user")
 
+    from .dormitory import dormitory as dormitory_blueprint
+
+    app.register_blueprint(dormitory_blueprint, url_prefix="/api/dormitory")
+
+    from .building import building as building_blueprint
+
+    app.register_blueprint(building_blueprint, url_prefix="/api/building")
+
     return app
 
 

@@ -5,7 +5,7 @@ from ..response import RET, jsonRes
 from ..utilities import token_required, admin_required, getUser
 from sqlalchemy import or_, and_
 from ..models import Student
-from .utilities import user_to_dict
+from .utilities import user_to_dict, user_to_dict_brief
 
 
 @user.route("/get-users", methods=["GET"])
@@ -49,8 +49,29 @@ def get_users(current_user):
     except Exception as e:
         current_app.logger.debug(e)
         return jsonRes(code=RET.DBERR, msg="数据库查询错误")
-    users_dict = list(map(user_to_dict, users))
+    users_dict = list(map(user_to_dict_brief, users))
     return jsonRes(msg="获取用户列表成功", data={"users": users_dict, "total": total})
+
+
+@user.route("/user", methods=["GET"])
+@token_required
+@admin_required
+def get_user(current_user):
+    data = request.args
+    no = data.get("no")
+
+    if not all([no]):
+        return jsonRes(code=RET.PARAMERR, msg="参数不完整")
+    try:
+        u = getUser(no)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonRes(code=RET.DBERR, msg="用户查询失败")
+
+    if u:
+        return jsonRes(msg="查询用户成功", data=user_to_dict(u))
+
+    return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
 
 
 @user.route("/user", methods=["POST"])
@@ -67,8 +88,10 @@ def add_user(current_user):
     major = data.get("major")
     grade = data.get("grade")
     classno = data.get("classno")
+    building_id = data.get("building_id")
+    dorm_id = data.get("dormitory_id")
 
-    if not all([no, name, password, gender]):
+    if not all([no, name, password]):
         return jsonRes(code=RET.PARAMERR, msg="参数不完整")
     try:
         u = getUser(no)
@@ -86,7 +109,9 @@ def add_user(current_user):
                 tel=tel,
                 major=major,
                 grade=grade,
-                classno=classno)
+                classno=classno,
+                building_id=building_id,
+                dorm_id=dorm_id)
     try:
         db.session.add(u)
         db.session.commit()
@@ -110,8 +135,10 @@ def edit_user(current_user):
     major = data.get("major")
     grade = data.get("grade")
     classno = data.get("classno")
+    building_id = data.get("building_id")
+    dorm_id = data.get("dormitory_id")
 
-    if not all([no, name, gender]):
+    if not all([no, name]):
         return jsonRes(code=RET.PARAMERR, msg="参数不完整")
     try:
         u = getUser(no)
@@ -128,6 +155,8 @@ def edit_user(current_user):
     u.major = major
     u.grade = grade
     u.classno = classno
+    u.building_id = building_id
+    u.dorm_id = dorm_id
     try:
         db.session.merge(u)
         db.session.commit()

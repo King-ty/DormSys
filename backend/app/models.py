@@ -74,7 +74,7 @@ class Dormitory(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)  # 额外抽象出一个主键
     no = db.Column(db.String(10))
-    max_number = db.Column(db.SmallInteger, nullable=False)
+    max_number = db.Column(db.SmallInteger, default=4, nullable=False)
 
     building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))
     students = db.relationship("Student", backref="dormitory", lazy="dynamic")

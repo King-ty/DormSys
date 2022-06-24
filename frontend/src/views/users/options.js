@@ -8,6 +8,14 @@ export const options = [
     label: 'name'
   },
   {
+    prop: 'building',
+    label: 'building'
+  },
+  {
+    prop: 'dormitory',
+    label: 'dormitory'
+  },
+  {
     prop: 'gender',
     label: 'gender'
   },
@@ -15,30 +23,30 @@ export const options = [
     prop: 'tel',
     label: 'tel'
   },
-  {
-    prop: 'email',
-    label: 'email',
-    width: 100
-  },
   // {
-  //   prop: 'role',
-  //   label: 'role'
+  //   prop: 'email',
+  //   label: 'email',
+  //   width: 100
+  // },
+  // // {
+  // //   prop: 'role',
+  // //   label: 'role'
+  // // },
+  // {
+  //   prop: 'major',
+  //   label: 'major'
+  // },
+  // {
+  //   prop: 'grade',
+  //   label: 'grade'
+  // },
+  // {
+  //   prop: 'classno',
+  //   label: 'classno'
   // },
   {
-    prop: 'major',
-    label: 'major'
-  },
-  {
-    prop: 'grade',
-    label: 'grade'
-  },
-  {
-    prop: 'classno',
-    label: 'classno'
-  },
-  {
     prop: 'action',
-    label: 'action',
-    width: 110
+    label: 'action'
+    // width: 80
   }
 ]

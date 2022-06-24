@@ -3,7 +3,7 @@
     :background-color="variables.menuBg" -->
   <el-menu
     active-text-color="#ffd04b"
-    background-color="#545c64"
+    background-color="#708069"
     class="el-menu-vertical-demo"
     :default-active="defaultActive"
     text-color="#fff"
@@ -11,6 +11,7 @@
     unique-opened
     :collapse="!$store.getters.siderType"
   >
+    <Logo :url="require('@/assets/logo.png')" @toIndex="savePath('/users')" />
     <el-sub-menu
       :index="item.id + ''"
       v-for="(item, index) in menusList"
@@ -42,8 +43,9 @@
 <script setup>
 import { ref } from 'vue'
 import { menuList as menus } from './menuList'
+import Logo from './components/logo'
 
-const iconList = ref(['user', 'setting', 'shop', 'tickets'])
+const iconList = ref(['user', 'house', 'shop', 'tickets'])
 const icon = ref('menu')
 
 const menusList = ref(menus)

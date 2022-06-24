@@ -20,35 +20,6 @@
       >
         <el-input v-model="form.password" show-password prop="password" />
       </el-form-item>
-      <el-form-item :label="$t('table.building')" prop="building">
-        <el-select
-          v-model="form.building_id"
-          :placeholder="$t('dialog.selectBuilding')"
-          filterable
-        >
-          {{ form.building_id }}
-          <el-option
-            v-for="(item, index) in buildingSelectList"
-            :key="index"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('table.dormitory')" prop="dormitory">
-        <el-select
-          v-model="form.dormitory_id"
-          :placeholder="$t('dialog.selectDormitory')"
-          filterable
-        >
-          <el-option
-            v-for="(item, index) in dormitorySelectList"
-            :key="index"
-            :label="item.no"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item :label="$t('table.gender')" prop="gender">
         <el-radio-group v-model="form.gender">
           <el-radio-button label="男">
@@ -87,52 +58,14 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps, ref, watch, onMounted } from 'vue'
+import { defineEmits, defineProps, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { addUser, editUser } from '@/api/users'
-import { getBuildingSelects } from '@/api/buildings'
-import { getDormitorySelects } from '@/api/dormitories'
 import i18n from '@/i18n'
 import formRules from '@/utils/formRules'
 
 const typeAdd = 0
 const typeEdit = 1
-
-const form = ref({
-  no: '',
-  name: '',
-  password: '',
-  building: '',
-  building_id: 0,
-  dormitory: '',
-  dormitory_id: 0,
-  gender: '',
-  email: '',
-  tel: '',
-  major: '',
-  grade: '',
-  classno: ''
-})
-
-const buildingSelectList = ref([])
-const dormitorySelectList = ref([])
-
-onMounted(async () => {
-  const res = await getBuildingSelects()
-  buildingSelectList.value = res.buildings
-  // console.log(buildingSelectList.value)
-})
-
-watch(
-  () => form.value.building_id,
-  async () => {
-    // console.log('###123')
-    const res = await getDormitorySelects(form.value.building_id)
-    dormitorySelectList.value = res.dorms
-    // console.log(res)
-  },
-  { deep: true }
-)
 
 const props = defineProps({
   dialogType: {
@@ -197,6 +130,18 @@ const handleConfirm = async () => {
   })
 }
 
+const form = ref({
+  no: '',
+  name: '',
+  password: '',
+  gender: '',
+  email: '',
+  tel: '',
+  major: '',
+  grade: '',
+  classno: ''
+})
+
 watch(
   () => props.dialogTable,
   () => {
@@ -210,7 +155,7 @@ const rules = ref({
   no: formRules.addNo,
   name: formRules.name,
   password: formRules.password,
-  // gender: formRules.gender,
+  gender: formRules.gender,
   email: formRules.email,
   tel: formRules.tel,
   // major: formRules.major,

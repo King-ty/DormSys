@@ -29,3 +29,11 @@ export const delUser = (id) => {
     method: 'delete'
   })
 }
+
+export const getUser = (params) => {
+  return request({
+    url: prefix + 'user',
+    method: 'get',
+    params
+  })
+}

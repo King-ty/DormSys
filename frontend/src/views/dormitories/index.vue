@@ -40,12 +40,7 @@
             :icon="Delete"
             @click="deleteUser(row)"
           ></el-button>
-          <!-- <el-button
-            type="success"
-            size="small"
-            :icon="InfoFilled"
-            @click="getUserDetails(row)"
-          ></el-button> -->
+          <!-- <el-button type="success" size="small" :icon="InfoFilled"></el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -73,7 +68,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Search, Edit, Delete } from '@element-plus/icons-vue'
-import { getUsers, getUser, delUser } from '@/api/users'
+import { getUsers, delUser } from '@/api/users'
 import { options } from './options'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -107,10 +102,6 @@ const deleteUser = (row) => {
     })
 }
 
-// const getUserDetails = (row) => {
-//   handleDialogValue(row)
-// }
-
 const queryForm = ref({
   query: '',
   pagenum: 1,
@@ -124,14 +115,14 @@ const dialogType = ref(0)
 const dialogTable = ref({})
 // 0: 添加用户 1: 编辑用户
 
-const handleDialogValue = async (row) => {
+const handleDialogValue = (row) => {
   // console.log(111, row)
   if (!row) {
     dialogType.value = typeAdd
     dialogTable.value = { gender: '男', password: '123456' }
   } else {
     dialogType.value = typeEdit
-    dialogTable.value = await getUser({ no: row.no })
+    dialogTable.value = JSON.parse(JSON.stringify(row))
   }
   dialogVisible.value = true
   // console.log(222, dialogType.value)
