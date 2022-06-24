@@ -53,7 +53,8 @@ export default {
     adduser: 'add user',
     placeholder: 'Please enter a user name to search for',
     stu_num: 'students number',
-    students: 'students'
+    students: 'students',
+    screen: 'screen'
   },
   message: {
     addSuccess: 'add successfully',
@@ -71,5 +72,10 @@ export default {
     guideBtn: 'guidebtn',
     hamburgerBtn: 'hamburgerBtn',
     fullScreen: 'fullScreen'
+  },
+  Pagination: {
+    total: 'total',
+    per_page: 'page',
+    goto: 'Go to'
   }
 }

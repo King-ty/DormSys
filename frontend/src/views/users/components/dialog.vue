@@ -24,8 +24,9 @@
           v-model="form.building_id"
           :placeholder="$t('dialog.selectBuilding')"
           filterable
+          default-first-option
         >
-          {{ form.building_id }}
+          <!-- {{ form.building_id }} -->
           <el-option
             v-for="(item, index) in buildingSelectList"
             :key="index"
@@ -39,6 +40,7 @@
           v-model="form.dormitory_id"
           :placeholder="$t('dialog.selectDormitory')"
           filterable
+          default-first-option
         >
           <el-option
             v-for="(item, index) in dormitorySelectList"

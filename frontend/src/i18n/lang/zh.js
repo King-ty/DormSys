@@ -53,7 +53,8 @@ export default {
     adduser: '添加用户',
     placeholder: '请输入搜索的用户姓名',
     stu_num: '学生数',
-    students: '入住学生'
+    students: '入住学生',
+    screen: '筛选'
   },
   message: {
     addSuccess: '添加成功',
@@ -71,5 +72,10 @@ export default {
     guideBtn: '引导按钮',
     hamburgerBtn: '汉堡按钮',
     fullScreen: '全屏按钮'
+  },
+  Pagination: {
+    total: 'total',
+    per_page: 'page',
+    goto: 'Go to'
   }
 }

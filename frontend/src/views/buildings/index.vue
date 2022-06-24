@@ -46,6 +46,15 @@
             </template>
           </el-link>
         </template>
+        <template #default="{ row }" v-else-if="item.prop === 'action'">
+          <el-button
+            type="primary"
+            size="small"
+            :icon="Edit"
+            @click="handleDialogValue(row)"
+          ></el-button>
+          <!-- <el-button type="success" size="small" :icon="InfoFilled"></el-button> -->
+        </template>
       </el-table-column>
     </el-table>
   </el-card>
@@ -60,14 +69,22 @@
     @current-change="handleCurrentChange"
     class="el-pagination"
   />
+  <Dialog
+    v-model="dialogVisible"
+    :dialogType="dialogType"
+    :dialogTable="dialogTable"
+    @getUsersList="initGetUsersList"
+  ></Dialog>
+  <!-- v-if="dialogVisible" -->
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { Search, Edit } from '@element-plus/icons-vue'
 import { getDormitories } from '@/api/dormitories'
 import { getBuildingSelects } from '@/api/buildings'
 import { options } from './options'
+import Dialog from './components/dialog'
 // import { useI18n } from 'vue-i18n'
 
 // const i18n = useI18n()
@@ -84,6 +101,29 @@ const queryForm = ref({
   pagenum: 1,
   pagesize: 5
 })
+
+const dialogVisible = ref(false)
+
+const dialogType = ref(0)
+
+const dialogTable = ref({})
+
+const typeAdd = 0
+const typeEdit = 1
+// 0: 添加用户 1: 编辑用户
+
+const handleDialogValue = (row) => {
+  // console.log(111, row)
+  if (!row) {
+    dialogType.value = typeAdd
+    dialogTable.value = { gender: '男', password: '123456' }
+  } else {
+    dialogType.value = typeEdit
+    dialogTable.value = JSON.parse(JSON.stringify(row))
+  }
+  dialogVisible.value = true
+  // console.log(222, dialogType.value)
+}
 
 const tableData = ref([])
 const total = ref(0)

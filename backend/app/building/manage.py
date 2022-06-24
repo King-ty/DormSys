@@ -15,7 +15,7 @@ def get_buildings(current_user):
     data = request.args
     query = data.get("query", "")
     pagenum = int(data.get("pagenum", 1))
-    pagesize = int(data.get("pagesize"))
+    pagesize = int(data.get("pagesize", 5))
     if not all([pagesize]):
         return jsonRes(code=RET.PARAMERR, msg="参数不完整")
 
