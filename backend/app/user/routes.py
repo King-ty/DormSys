@@ -12,7 +12,7 @@ import random
 @user.route("/login", methods=["POST"])
 def login():
     data = request.json
-    print(data)
+    # print(data)
     no = data.get("no")
     password = data.get("password")
     if not all([no, password]):
@@ -79,7 +79,7 @@ def password_vericode():
         current_app.logger.debug("邮箱验证码为: " + email_code)
         # redis逻辑
         try:
-            print("###", u.email, email_code)
+            # print("###", u.email, email_code)
             redis_client.set("AUTHCODE:" + u.email, email_code, 300)
         except Exception as e:
             current_app.logger.debug(e)
