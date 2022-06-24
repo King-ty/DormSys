@@ -4,7 +4,7 @@ from .. import db
 from ..response import RET, jsonRes
 from ..utilities import token_required, admin_required, sub_admin_required, getUser
 from sqlalchemy import or_, and_
-from ..models import Student
+from ..models import Student, Dormitory
 from .utilities import user_to_dict, user_to_dict_brief
 
 
@@ -100,6 +100,11 @@ def add_user(current_user):
 
     if u:
         return jsonRes(code=RET.DATAEXIST, msg="用户已存在")
+    if dorm_id:
+        dormitory = Dormitory.query.filter_by(id=dorm_id)
+        students_in = dormitory.students.all()
+        if len(students_in) >= dormitory.max_num:
+            return jsonRes(code=RET.LIMIT, msg="该宿舍已满员")
     u = Student(no=no,
                 name=name,
                 password=password,
@@ -148,6 +153,13 @@ def edit_user(current_user):
 
     if not u:
         return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
+
+    if dorm_id and u.dorm_id != dorm_id:
+        dormitory = Dormitory.query.filter_by(id=dorm_id)
+        students_in = dormitory.students.all()
+        if len(students_in) >= dormitory.max_num:
+            return jsonRes(code=RET.LIMIT, msg="该宿舍已满员")
+
     u.name = name
     u.gender = gender
     u.email = email
