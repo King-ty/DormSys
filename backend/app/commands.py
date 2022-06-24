@@ -56,11 +56,11 @@ def db_init():
                        classno=1,
                        profile="我太帅了",
                        tel="12345679999",
-                       email="123@qq.com",
+                       email="234@qq.com",
                        building_id=1,
                        dorm_id=1)
 
-    student4 = Student(no="1950001",
+    student4 = Student(no="1950004",
                        name="王五",
                        password="123456",
                        gender="女",
