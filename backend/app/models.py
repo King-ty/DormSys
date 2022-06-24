@@ -55,15 +55,15 @@ class Building(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 主键自增对SmallInteger无效！
     name = db.Column(db.String(32), nullable=False, unique=True)
     gender = db.Column(db.String(1), nullable=False)
-    is_bed_on_table = db.Column(db.Boolean, nullable=False)
-    is_independent_bathroom = db.Column(db.Boolean, nullable=False)
+    is_bed_on_table = db.Column(db.Boolean, default=False)
+    is_independent_bathroom = db.Column(db.Boolean, default=False)
     profile = db.Column(db.Text)
 
     dormitories = db.relationship("Dormitory",
                                   backref="building",
                                   lazy="dynamic")
     students = db.relationship("Student", backref="building", lazy="dynamic")
-    admin = db.relationship("Admin", backref="building", lazy="dynamic")
+    admins = db.relationship("Admin", backref="building", lazy="dynamic")
 
     def __repr__(self):
         return "<Building %r>" % self.name
