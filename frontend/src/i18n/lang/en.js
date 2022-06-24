@@ -3,7 +3,11 @@ export default {
     '/': 'home',
     home: 'home',
     users: 'users list',
-    dormitories: 'dormitories',
+    users_manage: 'users manage',
+    dormitories: 'dormitories list',
+    dormitories_manage: 'dormitories manage',
+    buildings: 'buildings list',
+    buildings_manage: 'buildings manage',
     roles: 'roles list',
     rights: 'permission list',
     goods: 'product list',
@@ -16,7 +20,9 @@ export default {
     title: 'user login',
     btnTitle: 'login',
     noPlace: 'Please enter your number',
-    passwordPlace: 'Please enter your password'
+    passwordPlace: 'Please enter your password',
+    logout: 'logout',
+    expired: 'Identity expired. Please log in again.'
   },
   dialog: {
     deleteTitle: 'Are you sure you want to delete the user ',
@@ -54,7 +60,10 @@ export default {
     placeholder: 'Please enter a user name to search for',
     stu_num: 'students number',
     students: 'students',
-    screen: 'screen'
+    screen: 'screen',
+    addBuilding: 'new building',
+    is_bed_on_table: 'bed on table',
+    is_independent_bathroom: 'independent bathroom'
   },
   message: {
     addSuccess: 'add successfully',

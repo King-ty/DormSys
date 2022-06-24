@@ -7,9 +7,10 @@ export default {
       trigger: 'blur'
     },
     {
-      pattern: '^d{3,}$',
-      message: 'Please input correct no'
-    }
+      pattern: '^[0-9]+$',
+      message: 'Please input numbers'
+    },
+    { min: 2, max: 10, message: 'Length should be 2 to 10', trigger: 'blur' }
   ],
   addNo: [
     {

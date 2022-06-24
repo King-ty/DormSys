@@ -3,7 +3,11 @@ export default {
     '/': '首页',
     home: '首页',
     users: '用户列表',
+    users_manage: '用户管理',
     dormitories: '宿舍列表',
+    dormitories_manage: '宿舍管理',
+    buildings: '宿舍楼表',
+    buildings_manage: '宿舍楼管理',
     roles: '角色列表',
     rights: '权限列表',
     goods: '商品列表',
@@ -16,7 +20,9 @@ export default {
     title: '用户登录',
     btnTitle: '登录',
     noPlace: '请输入学号/工号',
-    passwordPlace: '请输入密码'
+    passwordPlace: '请输入密码',
+    logout: '登出',
+    expired: '身份已过期，请重新登录'
   },
   dialog: {
     deleteTitle: '确定要删除用户',
@@ -54,7 +60,10 @@ export default {
     placeholder: '请输入搜索的用户姓名',
     stu_num: '学生数',
     students: '入住学生',
-    screen: '筛选'
+    screen: '筛选',
+    addBuilding: '添加宿舍楼',
+    is_bed_on_table: '上床下桌',
+    is_independent_bathroom: '独立卫浴'
   },
   message: {
     addSuccess: '添加成功',

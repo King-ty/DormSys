@@ -1,4 +1,5 @@
 <template>
+  <!-- :separator-icon="ArrowRight" -->
   <el-breadcrumb separator="/">
     <el-breadcrumb-item
       :to="item.path"
@@ -16,6 +17,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { watch, ref } from 'vue'
+// import { ArrowRight } from '@element-plus/icons-vue'
 
 const route = useRoute()
 // const router = useRouter()

@@ -1,22 +1,18 @@
 <template>
   <el-card>
     <el-row :gutter="20">
-      <el-select
-        class="building-select"
-        v-model="queryForm.building_id"
-        :placeholder="$t('dialog.selectBuilding')"
-        filterable
-        default-first-option
-      >
-        <el-option
-          v-for="(item, index) in buildingSelectList"
-          :key="index"
-          :label="item.name"
-          :value="item.id"
-        />
-      </el-select>
-      <el-button type="primary" :icon="Search" @click="initGetDormitoriesList">
-        {{ $t('table.screen') }}
+      <el-col :span="8">
+        <el-input
+          :placeholder="$t('table.placeholder')"
+          clearable
+          v-model="queryForm.query"
+        ></el-input>
+      </el-col>
+      <el-button type="primary" :icon="Search" @click="initGetBuildingsList">
+        {{ $t('table.search') }}
+      </el-button>
+      <el-button type="primary" @click.prevent="handleDialogValue()">
+        {{ $t('table.addBuilding') }}
       </el-button>
     </el-row>
   </el-card>
@@ -73,28 +69,18 @@
     v-model="dialogVisible"
     :dialogType="dialogType"
     :dialogTable="dialogTable"
-    @getUsersList="initGetUsersList"
+    @getUsersList="initGetBuildingsList"
   ></Dialog>
   <!-- v-if="dialogVisible" -->
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { Search, Edit } from '@element-plus/icons-vue'
-import { getDormitories } from '@/api/dormitories'
-import { getBuildingSelects } from '@/api/buildings'
+import { getBuildings } from '@/api/buildings'
 import { options } from './options'
 import Dialog from './components/dialog'
 // import { useI18n } from 'vue-i18n'
-
-// const i18n = useI18n()
-
-const buildingSelectList = ref([])
-onMounted(async () => {
-  const res = await getBuildingSelects()
-  buildingSelectList.value = res.buildings
-  // console.log(buildingSelectList.value)
-})
 
 const queryForm = ref({
   building_id: null,
@@ -128,23 +114,23 @@ const handleDialogValue = (row) => {
 const tableData = ref([])
 const total = ref(0)
 
-const initGetDormitoriesList = async () => {
-  const res = await getDormitories(queryForm.value)
+const initGetBuildingsList = async () => {
+  const res = await getBuildings(queryForm.value)
   // console.log(res)
   tableData.value = res.dorms
   total.value = res.total
 }
-initGetDormitoriesList()
+initGetBuildingsList()
 
 const handleSizeChange = (pageSize) => {
   queryForm.value.pagenum = 1
   queryForm.value.pageSize = pageSize
-  initGetDormitoriesList()
+  initGetBuildingsList()
 }
 
 const handleCurrentChange = (pageNum) => {
   queryForm.value.pagenum = pageNum
-  initGetDormitoriesList()
+  initGetBuildingsList()
 }
 </script>
 
