@@ -51,7 +51,9 @@ export default {
     action: 'action',
     search: 'search',
     adduser: 'add user',
-    placeholder: 'Please enter a user name to search for'
+    placeholder: 'Please enter a user name to search for',
+    stu_num: 'students number',
+    students: 'students'
   },
   message: {
     addSuccess: 'add successfully',

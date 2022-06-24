@@ -6,7 +6,6 @@
     @close="handleClose"
   >
     <el-form ref="formRef" :model="form" label-width="15%" :rules="rules">
-      <!-- 记得国际化! -->
       <el-form-item :label="$t('table.no')" prop="no">
         <el-input v-model="form.no" :disabled="props.dialogType === typeEdit" />
       </el-form-item>

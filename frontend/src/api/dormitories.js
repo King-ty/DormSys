@@ -10,3 +10,10 @@ export const getDormitorySelects = (buildingId) => {
     }
   })
 }
+
+export const getDormitories = (params) => {
+  return request({
+    url: prefix + 'get-dorms',
+    params
+  })
+}

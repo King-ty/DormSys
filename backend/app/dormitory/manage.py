@@ -13,6 +13,7 @@ from .utilities import dorm_to_dict, dorm_to_dict_select
 @admin_required
 def get_dorms(current_user):
     data = request.args
+    building_id = int(data.get("building_id"))
     pagenum = int(data.get("pagenum", 1))
     pagesize = int(data.get("pagesize"))
     if not all([pagesize]):
@@ -22,11 +23,19 @@ def get_dorms(current_user):
     try:
         if u.role == 0:
             # debug
-            paginate = (Dormitory.query.order_by(Dormitory.building.name,
-                                                 Dormitory.no).paginate(
-                                                     pagenum,
-                                                     pagesize,
-                                                     error_out=True))
+            if building_id:
+                paginate = (Dormitory.query.filter_by(
+                    building_id=building_id).order_by(Dormitory.building_id,
+                                                      Dormitory.no).paginate(
+                                                          pagenum,
+                                                          pagesize,
+                                                          error_out=True))
+            else:
+                paginate = (Dormitory.query.order_by(Dormitory.building_id,
+                                                     Dormitory.no).paginate(
+                                                         pagenum,
+                                                         pagesize,
+                                                         error_out=True))
             dormitories = paginate.items
             total = paginate.total
         elif u.role == 1:
