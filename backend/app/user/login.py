@@ -34,8 +34,8 @@ def login():
             algorithm="HS256",
         )
         # print("token=", token)
-        return jsonRes(msg="用户登录成功", data={'token': token})  # TODO:返回身份
-    return jsonRes(code=RET.LOGINERR, msg="邮箱或密码错误")
+        return jsonRes(msg="用户登录成功", data={'token': token, 'role': u.role})
+    return jsonRes(code=RET.LOGINERR, msg="号码或密码错误")
 
 
 @user.route("/change-password", methods=["PUT"])
@@ -96,7 +96,7 @@ def password_vericode():
         )
         return jsonRes(msg="验证码发送成功")
     else:
-        return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
+        return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在或未绑定邮箱")
 
 
 @user.route("/reset-password", methods=["POST"])
@@ -129,4 +129,4 @@ def reset_password():
                 return jsonRes(code=RET.DBERR, msg="数据库更新错误")
         else:
             return jsonRes(code=RET.PARAMERR, msg="验证码错误")
-    return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在")
+    return jsonRes(code=RET.DATANOTEXIST, msg="用户不存在或未绑定邮箱")

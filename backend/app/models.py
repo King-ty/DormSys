@@ -77,6 +77,7 @@ class Dormitory(db.Model):
     max_number = db.Column(db.SmallInteger, default=4, nullable=False)
 
     building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))
+    students = db.relationship("Student", backref="dormitory", lazy="dynamic")
 
     def __repr__(self):
         return "<Dormitory %r>" % (self.building_id + "-" + self.no)
