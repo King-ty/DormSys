@@ -6,19 +6,8 @@
     @close="handleClose"
   >
     <el-form ref="formRef" :model="form" label-width="15%" :rules="rules">
-      <!-- 记得国际化! -->
-      <el-form-item :label="$t('table.no')" prop="no">
-        <el-input v-model="form.no" :disabled="props.dialogType === typeEdit" />
-      </el-form-item>
-      <el-form-item :label="$t('table.name')" prop="name">
+      <el-form-item :label="$t('table.buildingName')" prop="name">
         <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item
-        :label="$t('table.password')"
-        prop="password"
-        v-if="props.dialogType === typeAdd"
-      >
-        <el-input v-model="form.password" show-password prop="password" />
       </el-form-item>
       <el-form-item :label="$t('table.gender')" prop="gender">
         <el-radio-group v-model="form.gender">
@@ -28,20 +17,14 @@
           <el-radio-button label="女">{{ $t('table.female') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('table.tel')" prop="tel">
-        <el-input v-model="form.tel" />
+      <el-form-item :label="$t('table.is_bed_on_table')" prop="is_bed_on_table">
+        <el-switch v-model="form.is_bed_on_table" />
       </el-form-item>
-      <el-form-item :label="$t('table.email')" prop="email">
-        <el-input v-model="form.email" />
-      </el-form-item>
-      <el-form-item :label="$t('table.major')" prop="major">
-        <el-input v-model="form.major" />
-      </el-form-item>
-      <el-form-item :label="$t('table.grade')" prop="grade">
-        <el-input v-model="form.grade" />
-      </el-form-item>
-      <el-form-item :label="$t('table.classno')" prop="classno">
-        <el-input v-model.number="form.classno" />
+      <el-form-item
+        :label="$t('table.is_independent_bathroom')"
+        prop="is_independent_bathroom"
+      >
+        <el-switch v-model="form.is_independent_bathroom" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -65,7 +48,7 @@ import i18n from '@/i18n'
 import formRules from '@/utils/formRules'
 
 const typeAdd = 0
-const typeEdit = 1
+// const typeEdit = 1
 
 const props = defineProps({
   dialogType: {
@@ -98,7 +81,7 @@ watch(
   { deep: true }
 )
 
-const emits = defineEmits(['update:modelValue', 'getUsersList'])
+const emits = defineEmits(['update:modelValue', 'getBuildingsList'])
 
 const handleClose = () => {
   emits('update:modelValue', false)
@@ -122,7 +105,7 @@ const handleConfirm = async () => {
         })
       }
 
-      emits('getUsersList')
+      emits('getBuildingsList')
       handleClose()
     } else {
       console.log('error submit!', fields)
@@ -152,15 +135,7 @@ watch(
 )
 
 const rules = ref({
-  no: formRules.addNo,
-  name: formRules.name,
-  password: formRules.password,
-  gender: formRules.gender,
-  email: formRules.email,
-  tel: formRules.tel,
-  // major: formRules.major,
-  grade: formRules.grade,
-  classno: formRules.classno
+  name: formRules.name
 })
 </script>
 

@@ -27,20 +27,15 @@
         :min-width="item.width"
         align="center"
       >
-        <template v-slot="{ row }" v-if="item.prop === 'stu_num'">
-          {{ `${row.num} / ${row.max_num}` }}
-        </template>
-        <template v-slot="{ row }" v-else-if="item.prop === 'students'">
-          <el-link
-            v-for="(it, index) in row.students"
-            :key="index"
-            type="primary"
-          >
-            {{ it.no }} {{ it.name }}
-            <template v-if="index !== row.students.length - 1">
-              ,&nbsp;
-            </template>
-          </el-link>
+        <template
+          v-slot="{ row }"
+          v-if="
+            item.prop === 'is_bed_on_table' ||
+            item.prop === 'is_independent_bathroom'
+          "
+        >
+          <el-icon v-if="row[item.prop]"><Check /></el-icon>
+          <el-icon v-else><Close /></el-icon>
         </template>
         <template #default="{ row }" v-else-if="item.prop === 'action'">
           <el-button
@@ -69,21 +64,21 @@
     v-model="dialogVisible"
     :dialogType="dialogType"
     :dialogTable="dialogTable"
-    @getUsersList="initGetBuildingsList"
+    @getBuildingsList="initGetBuildingsList"
   ></Dialog>
   <!-- v-if="dialogVisible" -->
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { Search, Edit } from '@element-plus/icons-vue'
+import { Search, Edit, Check, Close } from '@element-plus/icons-vue'
 import { getBuildings } from '@/api/buildings'
 import { options } from './options'
 import Dialog from './components/dialog'
 // import { useI18n } from 'vue-i18n'
 
 const queryForm = ref({
-  building_id: null,
+  query: '',
   pagenum: 1,
   pagesize: 5
 })
@@ -102,7 +97,11 @@ const handleDialogValue = (row) => {
   // console.log(111, row)
   if (!row) {
     dialogType.value = typeAdd
-    dialogTable.value = { gender: '男', password: '123456' }
+    dialogTable.value = {
+      gender: '男',
+      is_bed_on_table: false,
+      is_independent_bathroom: false
+    }
   } else {
     dialogType.value = typeEdit
     dialogTable.value = JSON.parse(JSON.stringify(row))
@@ -117,7 +116,7 @@ const total = ref(0)
 const initGetBuildingsList = async () => {
   const res = await getBuildings(queryForm.value)
   // console.log(res)
-  tableData.value = res.dorms
+  tableData.value = res.buildings
   total.value = res.total
 }
 initGetBuildingsList()

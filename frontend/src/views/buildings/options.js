@@ -16,5 +16,9 @@ export const options = [
   {
     prop: 'is_independent_bathroom',
     label: 'is_independent_bathroom'
+  },
+  {
+    prop: 'action',
+    label: 'action'
   }
 ]

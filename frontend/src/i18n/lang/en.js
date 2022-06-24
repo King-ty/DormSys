@@ -39,6 +39,7 @@ export default {
   table: {
     no: 'no',
     name: 'name',
+    buildingName: 'name',
     password: 'password',
     building: 'building',
     dormitory: 'dormitory',

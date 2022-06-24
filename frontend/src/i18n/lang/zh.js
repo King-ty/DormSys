@@ -38,6 +38,7 @@ export default {
   },
   table: {
     no: '学号',
+    buildingName: '楼名',
     name: '姓名',
     password: '密码',
     building: '宿舍楼',
