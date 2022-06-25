@@ -46,6 +46,10 @@ def create_app(config_name):
 
     app.register_blueprint(building_blueprint, url_prefix="/api/building")
 
+    from .score import score as score_blueprint
+
+    app.register_blueprint(score_blueprint, url_prefix="/api/score")
+
     return app
 
 

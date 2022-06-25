@@ -68,7 +68,7 @@
         <el-input v-model="form.major" />
       </el-form-item>
       <el-form-item :label="$t('table.grade')" prop="grade">
-        <el-input v-model="form.grade" />
+        <el-input v-model.number="form.grade" />
       </el-form-item>
       <el-form-item :label="$t('table.classno')" prop="classno">
         <el-input v-model.number="form.classno" />
@@ -111,7 +111,7 @@ const form = ref({
   email: '',
   tel: '',
   major: '',
-  grade: '',
+  grade: 2019,
   classno: ''
 })
 
@@ -194,6 +194,10 @@ const handleConfirm = async () => {
       handleClose()
     } else {
       console.log('error submit!', fields)
+      ElMessage({
+        message: i18n.global.t('message.formInvalid'),
+        type: 'error'
+      })
     }
   })
 }
@@ -203,9 +207,21 @@ watch(
   () => {
     // console.log(1, props.dialogTable)
     form.value = props.dialogTable
+    // form.value.grade = parseInt(form.value.grade)
   },
   { deep: true }
 )
+
+const validateGrade = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入年级'))
+    // password 是表单上绑定的字段
+  } else if (value > 9999 || value < 2000) {
+    callback(new Error('请输入合理的年级!'))
+  } else {
+    callback()
+  }
+}
 
 const rules = ref({
   no: formRules.addNo,
@@ -215,7 +231,13 @@ const rules = ref({
   email: formRules.email,
   tel: formRules.tel,
   // major: formRules.major,
-  grade: formRules.grade,
+  grade: [
+    {
+      // required: true,
+      validator: validateGrade,
+      trigger: 'blur'
+    }
+  ],
   classno: formRules.classno
 })
 </script>

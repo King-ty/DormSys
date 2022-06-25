@@ -8,6 +8,8 @@ export default {
     dormitories_manage: 'dormitories manage',
     buildings: 'buildings list',
     buildings_manage: 'buildings manage',
+    scores: 'scores list',
+    scores_manage: 'scores manage',
     roles: 'roles list',
     rights: 'permission list',
     goods: 'product list',
@@ -68,7 +70,9 @@ export default {
     is_independent_bathroom: 'independent bathroom',
     score: 'score',
     score_n: 'score',
-    check_type: 'check type'
+    check_type: 'check type',
+    admin: 'admin',
+    time: 'time'
   },
   message: {
     addSuccess: 'add successfully',
@@ -76,7 +80,8 @@ export default {
     delCancel: 'delete canceld',
     updeteSuccess: 'update successfully',
     codeSuccess: 'send verification code successfully',
-    codeError: 'error user no'
+    codeError: 'error user no',
+    formInvalid: 'form invalid'
   },
   driver: {
     doneBtnText: 'done',

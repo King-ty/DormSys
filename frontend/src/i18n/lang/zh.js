@@ -8,6 +8,8 @@ export default {
     dormitories_manage: '宿舍管理',
     buildings: '宿舍楼表',
     buildings_manage: '宿舍楼管理',
+    scores: '得分列表',
+    scores_manage: '得分管理',
     roles: '角色列表',
     rights: '权限列表',
     goods: '商品列表',
@@ -68,7 +70,9 @@ export default {
     is_independent_bathroom: '独立卫浴',
     score: '打分',
     score_n: '得分',
-    check_type: '检查类型'
+    check_type: '检查类型',
+    admin: '管理员',
+    time: '时间'
   },
   message: {
     addSuccess: '添加成功',
@@ -76,7 +80,8 @@ export default {
     delCancel: '取消删除',
     updeteSuccess: '更新成功',
     codeSuccess: '发送验证码成功',
-    codeError: 'no项不正确'
+    codeError: 'no项不正确',
+    formInvalid: '表单不合法'
   },
   driver: {
     doneBtnText: '完成',
