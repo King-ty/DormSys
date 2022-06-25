@@ -1,22 +1,5 @@
 <template>
   <el-card>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <el-input
-          :placeholder="$t('table.placeholder')"
-          clearable
-          v-model="queryForm.query"
-        ></el-input>
-      </el-col>
-      <el-button type="primary" :icon="Search" @click="initGetScoresList">
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button type="primary" @click.prevent="handleDialogValue()">
-        {{ $t('table.addBuilding') }}
-      </el-button>
-    </el-row>
-  </el-card>
-  <el-card>
     <el-table :data="tableData" stripe style="width: 100%">
       <!-- highlight-current-row="true" -->
       <el-table-column
@@ -26,23 +9,24 @@
         :key="index"
         :min-width="item.width"
         align="center"
+        :sortable="
+          item.prop === 'time' ||
+          item.prop === 'dormitory' ||
+          item.prop === 'score'
+        "
       >
-        <template
-          v-slot="{ row }"
-          v-if="
-            item.prop === 'is_bed_on_table' ||
-            item.prop === 'is_independent_bathroom'
-          "
-        >
-          <el-icon v-if="row[item.prop]"><Check /></el-icon>
-          <el-icon v-else><Close /></el-icon>
+        <template v-slot="{ row }" v-if="item.prop === 'check_type'">
+          {{ $t(`type.check_${checkSelectList[row.check_type].name}`) }}
+        </template>
+        <template v-slot="{ row }" v-else-if="item.prop === 'time'">
+          {{ $filters.filterTime(row.time, 'YYYY-MM-DD HH:mm:ss') }}
         </template>
         <template #default="{ row }" v-else-if="item.prop === 'action'">
           <el-button
-            type="primary"
+            type="danger"
             size="small"
-            :icon="Edit"
-            @click="handleDialogValue(row)"
+            :icon="Delete"
+            @click="deleteScore(row)"
           ></el-button>
           <!-- <el-button type="success" size="small" :icon="InfoFilled"></el-button> -->
         </template>
@@ -60,55 +44,24 @@
     @current-change="handleCurrentChange"
     class="el-pagination"
   />
-  <Dialog
-    v-model="dialogVisible"
-    :dialogType="dialogType"
-    :dialogTable="dialogTable"
-    @getScoresList="initGetScoresList"
-  ></Dialog>
-  <!-- v-if="dialogVisible" -->
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { Search, Edit, Check, Close } from '@element-plus/icons-vue'
-import { getScores } from '@/api/score'
-import { options } from './options'
-import Dialog from './components/dialog'
-// import { useI18n } from 'vue-i18n'
+import { Delete } from '@element-plus/icons-vue'
+import { getScores, delScore } from '@/api/scores'
+import { options, checkSelectList } from './options'
+// import Dialog from './components/dialog'
+import { useI18n } from 'vue-i18n'
+import { ElMessageBox, ElMessage } from 'element-plus'
+
+const i18n = useI18n()
 
 const queryForm = ref({
   query: '',
   pagenum: 1,
   pagesize: 5
 })
-
-const dialogVisible = ref(false)
-
-const dialogType = ref(0)
-
-const dialogTable = ref({})
-
-const typeAdd = 0
-const typeEdit = 1
-// 0: 添加用户 1: 编辑用户
-
-const handleDialogValue = (row) => {
-  // console.log(111, row)
-  if (!row) {
-    dialogType.value = typeAdd
-    dialogTable.value = {
-      gender: '男',
-      is_bed_on_table: false,
-      is_independent_bathroom: false
-    }
-  } else {
-    dialogType.value = typeEdit
-    dialogTable.value = JSON.parse(JSON.stringify(row))
-  }
-  dialogVisible.value = true
-  // console.log(222, dialogType.value)
-}
 
 const tableData = ref([])
 const total = ref(0)
@@ -130,6 +83,28 @@ const handleSizeChange = (pageSize) => {
 const handleCurrentChange = (pageNum) => {
   queryForm.value.pagenum = pageNum
   initGetScoresList()
+}
+
+const deleteScore = (row) => {
+  ElMessageBox.confirm(i18n.t('dialog.deleteTitle'), 'Warning', {
+    confirmButtonText: i18n.t('dialog.confirm'),
+    cancelButtonText: i18n.t('dialog.cancel'),
+    type: 'warning'
+  })
+    .then(async () => {
+      await delScore(row.id)
+      initGetScoresList()
+      ElMessage({
+        type: 'success',
+        message: i18n.t('message.delSuccess')
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: i18n.t('message.delCancel')
+      })
+    })
 }
 </script>
 

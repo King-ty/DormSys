@@ -35,7 +35,7 @@ def get_scores(current_user):
         current_app.logger.debug(e)
         return jsonRes(code=RET.DBERR, msg="数据库查询错误")
     scores_dict = list(map(score_to_dict, scores))
-    print(scores_dict)
+    # print(scores_dict)  ### debug
     return jsonRes(msg="获取得分列表成功",
                    data={
                        "scores": scores_dict,
@@ -74,3 +74,28 @@ def add_score(current_user):
         db.session.rollback()
         return jsonRes(code=RET.DBERR, msg="数据库错误")
     return jsonRes(msg="打分成功")
+
+
+@score.route("/score/<id>", methods=["DELETE"])
+@token_required
+@sub_admin_required
+def delete_score(current_user, id):
+    if not all([id]):
+        return jsonRes(code=RET.PARAMERR, msg="参数不完整")
+    id = int(id)
+    try:
+        score = Score.query.filter_by(id=id).first()
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonRes(code=RET.DBERR, msg="数据查询失败")
+
+    if not score:
+        return jsonRes(code=RET.DATANOTEXIST, msg="数据不存在")
+    try:
+        db.session.delete(score)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.debug(e)
+        db.session.rollback()
+        return jsonRes(code=RET.DBERR, msg="数据库错误")
+    return jsonRes(msg="删除数据成功")

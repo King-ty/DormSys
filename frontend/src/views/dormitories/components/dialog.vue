@@ -48,7 +48,7 @@ import { ElMessage } from 'element-plus'
 import i18n from '@/i18n'
 import formRules from '@/utils/formRules'
 import { checkSelectList } from './options'
-import { addScore } from '@/api/score'
+import { addScore } from '@/api/scores'
 
 const props = defineProps({
   dialogVisible: {
