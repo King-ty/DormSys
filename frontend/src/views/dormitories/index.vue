@@ -46,6 +46,16 @@
             </template>
           </el-link>
         </template>
+        <template #default="{ row }" v-else-if="item.prop === 'action'">
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleDialogValue(row)"
+          >
+            {{ $t('table.score') }}
+          </el-button>
+          <!-- <el-button type="success" size="small" :icon="InfoFilled"></el-button> -->
+        </template>
       </el-table-column>
     </el-table>
   </el-card>
@@ -60,6 +70,11 @@
     @current-change="handleCurrentChange"
     class="el-pagination"
   />
+  <Dialog
+    v-model="dialogVisible"
+    :dialogTable="dialogTable"
+    @getDormitoriesList="initGetDormitoriesList"
+  ></Dialog>
 </template>
 
 <script setup>
@@ -68,9 +83,24 @@ import { Search } from '@element-plus/icons-vue'
 import { getDormitories } from '@/api/dormitories'
 import { getBuildingSelects } from '@/api/buildings'
 import { options } from './options'
+import store from '@/store'
+import Dialog from './components/dialog'
 // import { useI18n } from 'vue-i18n'
 
 // const i18n = useI18n()
+
+const dialogVisible = ref(false)
+const dialogTable = ref({})
+
+const handleDialogValue = (row) => {
+  dialogTable.value = {
+    dorm_id: row.id,
+    work_no: store.getters.no,
+    check_type: 1
+  }
+  dialogVisible.value = true
+  // console.log(222, dialogType.value)
+}
 
 const buildingSelectList = ref([])
 onMounted(async () => {

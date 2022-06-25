@@ -13,10 +13,10 @@ export const options = [
     prop: 'students',
     label: 'students',
     width: 100
+  },
+  {
+    prop: 'action',
+    label: 'action'
+    // width: 80
   }
-  // {
-  //   prop: 'action',
-  //   label: 'action'
-  //   // width: 80
-  // }
 ]

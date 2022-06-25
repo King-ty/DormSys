@@ -6,6 +6,7 @@ export default {
   state: () => ({
     token: localStorage.getItem('token') || '',
     role: localStorage.getItem('role') || 2,
+    no: localStorage.getItem('no') || -1,
     siderType: true,
     lang: localStorage.getItem('lang') || 'zh'
   }),
@@ -17,6 +18,10 @@ export default {
     setRole(state, role) {
       state.role = role
       localStorage.setItem('role', role)
+    },
+    setNo(state, no) {
+      state.no = no
+      localStorage.setItem('no', no)
     },
     changeSiderType(state) {
       state.siderType = !state.siderType
@@ -33,6 +38,7 @@ export default {
             // console.log(res)
             commit('setToken', res.token)
             commit('setRole', res.role)
+            commit('setNo', userInfo.no)
             router.replace('/')
             resolve()
           })

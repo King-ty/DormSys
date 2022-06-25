@@ -22,7 +22,8 @@ export default {
     noPlace: '请输入学号/工号',
     passwordPlace: '请输入密码',
     logout: '登出',
-    expired: '身份已过期，请重新登录'
+    expired: '身份已过期，请重新登录',
+    forget_password: '忘记密码？'
   },
   dialog: {
     deleteTitle: '确定要删除用户',
@@ -50,7 +51,7 @@ export default {
     major: '专业',
     grade: '年级',
     classno: '班级',
-    profile: '简介',
+    profile: '附加信息',
     username: '姓名',
     email: '邮箱',
     mobile: '手机',
@@ -64,7 +65,10 @@ export default {
     screen: '筛选',
     addBuilding: '添加宿舍楼',
     is_bed_on_table: '上床下桌',
-    is_independent_bathroom: '独立卫浴'
+    is_independent_bathroom: '独立卫浴',
+    score: '打分',
+    score_n: '得分',
+    check_type: '检查类型'
   },
   message: {
     addSuccess: '添加成功',
@@ -87,5 +91,10 @@ export default {
     total: 'total',
     per_page: 'page',
     goto: 'Go to'
+  },
+  type: {
+    check_clean: '卫生检查',
+    check_security: '安全检查',
+    check_others: '其他'
   }
 }

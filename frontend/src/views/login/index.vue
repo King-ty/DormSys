@@ -36,7 +36,7 @@
         @click.prevent="handleForgetPassword"
         class="click-link"
       >
-        忘记密码？
+        {{ $t('login.forget_password') }}
       </a>
     </el-form>
     <Dialog v-model="dialogVisible" :no="form.no"></Dialog>
@@ -62,7 +62,6 @@ const form = ref({
 })
 
 const rules = ref({
-  // TODO:国际化+限定内容检查
   no: formRules.no,
   password: formRules.password
 })

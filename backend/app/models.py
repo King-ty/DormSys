@@ -89,13 +89,13 @@ class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     dorm_id = db.Column(db.Integer,
                         db.ForeignKey("dormitories.id"),
-                        primary_key=True)
+                        nullable=False)
     work_no = db.Column(db.String(16),
                         db.ForeignKey("administrators.no"),
-                        primary_key=True)
-    time = db.Column(db.DateTime, primary_key=True)
+                        nullable=False)
+    time = db.Column(db.DateTime, nullable=False)
     score = db.Column(db.SmallInteger, nullable=False)
-    check_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表检查
+    check_type = db.Column(db.SmallInteger, default=0, nullable=False)
     profile = db.Column(db.Text)
 
     def __repr__(self):

@@ -22,7 +22,8 @@ export default {
     noPlace: 'Please enter your number',
     passwordPlace: 'Please enter your password',
     logout: 'logout',
-    expired: 'Identity expired. Please log in again.'
+    expired: 'Identity expired. Please log in again.',
+    forget_password: 'forget password?'
   },
   dialog: {
     deleteTitle: 'Are you sure you want to delete the user ',
@@ -64,7 +65,10 @@ export default {
     screen: 'screen',
     addBuilding: 'new building',
     is_bed_on_table: 'bed on table',
-    is_independent_bathroom: 'independent bathroom'
+    is_independent_bathroom: 'independent bathroom',
+    score: 'score',
+    score_n: 'score',
+    check_type: 'check type'
   },
   message: {
     addSuccess: 'add successfully',
@@ -87,5 +91,10 @@ export default {
     total: 'total',
     per_page: 'page',
     goto: 'Go to'
+  },
+  type: {
+    check_clean: 'cleanliness',
+    check_security: 'security',
+    check_others: 'others'
   }
 }
