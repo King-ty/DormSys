@@ -7,71 +7,16 @@
   >
     <el-form ref="formRef" :model="form" label-width="15%" :rules="rules">
       <el-form-item :label="$t('table.no')" prop="no">
-        <el-input v-model="form.no" :disabled="props.dialogType === typeEdit" />
+        <el-input v-model="form.no" disabled />
       </el-form-item>
       <el-form-item :label="$t('table.name')" prop="name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item
-        :label="$t('table.password')"
-        prop="password"
-        v-if="props.dialogType === typeAdd"
-      >
-        <el-input v-model="form.password" show-password prop="password" />
-      </el-form-item>
-      <el-form-item :label="$t('table.building')" prop="building">
-        <el-select
-          v-model="form.building_id"
-          :placeholder="$t('dialog.selectBuilding')"
-          filterable
-          default-first-option
-        >
-          <!-- {{ form.building_id }} -->
-          <el-option
-            v-for="(item, index) in buildingSelectList"
-            :key="index"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('table.dormitory')" prop="dormitory">
-        <el-select
-          v-model="form.dormitory_id"
-          :placeholder="$t('dialog.selectDormitory')"
-          filterable
-          default-first-option
-        >
-          <el-option
-            v-for="(item, index) in dormitorySelectList"
-            :key="index"
-            :label="item.no"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('table.gender')" prop="gender">
-        <el-radio-group v-model="form.gender">
-          <el-radio-button label="男">
-            {{ $t('table.male') }}
-          </el-radio-button>
-          <el-radio-button label="女">{{ $t('table.female') }}</el-radio-button>
-        </el-radio-group>
+        <el-input v-model="form.name" disabled />
       </el-form-item>
       <el-form-item :label="$t('table.tel')" prop="tel">
         <el-input v-model="form.tel" />
       </el-form-item>
       <el-form-item :label="$t('table.email')" prop="email">
         <el-input v-model="form.email" />
-      </el-form-item>
-      <el-form-item :label="$t('table.major')" prop="major">
-        <el-input v-model="form.major" />
-      </el-form-item>
-      <el-form-item :label="$t('table.grade')" prop="grade">
-        <el-input v-model.number="form.grade" />
-      </el-form-item>
-      <el-form-item :label="$t('table.classno')" prop="classno">
-        <el-input v-model.number="form.classno" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -88,59 +33,20 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps, ref, watch, onMounted } from 'vue'
+import { defineEmits, defineProps, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import { addUser, editUser } from '@/api/users'
-import { getBuildingSelects } from '@/api/buildings'
-import { getDormitorySelects } from '@/api/dormitories'
+import { editUser } from '@/api/users'
 import i18n from '@/i18n'
 import formRules from '@/utils/formRules'
-
-const typeAdd = 0
-const typeEdit = 1
 
 const form = ref({
   no: '',
   name: '',
-  password: '',
-  building: '',
-  building_id: 0,
-  dormitory: '',
-  dormitory_id: 0,
-  gender: '',
   email: '',
-  tel: '',
-  major: '',
-  grade: 2019,
-  classno: ''
+  tel: ''
 })
-
-const buildingSelectList = ref([])
-const dormitorySelectList = ref([])
-
-onMounted(async () => {
-  const res = await getBuildingSelects()
-  buildingSelectList.value = res.buildings
-  // console.log(buildingSelectList.value)
-})
-
-watch(
-  () => form.value.building_id,
-  async () => {
-    // console.log('###123')
-    const res = await getDormitorySelects(form.value.building_id)
-    dormitorySelectList.value = res.dorms
-    // console.log(res)
-  },
-  { deep: true }
-)
 
 const props = defineProps({
-  dialogType: {
-    type: Number,
-    default: 0,
-    required: true
-  },
   dialogVisible: {
     type: Boolean,
     default: false
@@ -152,21 +58,9 @@ const props = defineProps({
   }
 })
 
-const dialogTitle = ref('')
+const dialogTitle = i18n.global.t('dialog.editInfoTitle')
 
-watch(
-  () => props.dialogType,
-  () => {
-    // console.log('###', props.dialogType)
-    dialogTitle.value =
-      props.dialogType === typeAdd
-        ? i18n.global.t('dialog.addUserTitle')
-        : i18n.global.t('dialog.editUserTitle')
-  },
-  { deep: true }
-)
-
-const emits = defineEmits(['update:modelValue', 'getUsersList'])
+const emits = defineEmits(['update:modelValue', 'getUserInfo'])
 
 const handleClose = () => {
   emits('update:modelValue', false)
@@ -176,20 +70,11 @@ const formRef = ref(null)
 const handleConfirm = async () => {
   await formRef.value.validate(async (valid, fields) => {
     if (valid) {
-      if (props.dialogType === typeAdd) {
-        await addUser(form.value)
-        ElMessage({
-          message: i18n.global.t('message.addSuccess'),
-          type: 'success'
-        })
-      } else {
-        await editUser(form.value)
-        ElMessage({
-          message: i18n.global.t('message.updeteSuccess'),
-          type: 'success'
-        })
-      }
-
+      await editUser(form.value)
+      ElMessage({
+        message: i18n.global.t('message.updeteSuccess'),
+        type: 'success'
+      })
       emits('getUsersList')
       handleClose()
     } else {
@@ -212,33 +97,9 @@ watch(
   { deep: true }
 )
 
-const validateGrade = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('请输入年级'))
-    // password 是表单上绑定的字段
-  } else if (value > 9999 || value < 2000) {
-    callback(new Error('请输入合理的年级!'))
-  } else {
-    callback()
-  }
-}
-
 const rules = ref({
-  no: formRules.addNo,
-  name: formRules.name,
-  password: formRules.password,
-  // gender: formRules.gender,
   email: formRules.email,
-  tel: formRules.tel,
-  // major: formRules.major,
-  grade: [
-    {
-      // required: true,
-      validator: validateGrade,
-      trigger: 'blur'
-    }
-  ],
-  classno: formRules.classno
+  tel: formRules.tel
 })
 </script>
 

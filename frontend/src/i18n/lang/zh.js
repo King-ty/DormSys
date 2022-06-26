@@ -34,6 +34,7 @@ export default {
     selectDormitory: '请选择宿舍',
     addUserTitle: '添加用户',
     editUserTitle: '编辑用户',
+    editInfoTitle: '编辑信息',
     vericode: '验证码',
     newPassword: '新密码',
     confirmPassword: '确认密码',
@@ -42,6 +43,7 @@ export default {
   },
   table: {
     no: '学号',
+    no2: '学号/工号',
     buildingName: '楼名',
     name: '姓名',
     password: '密码',
@@ -102,5 +104,10 @@ export default {
     check_clean: '卫生检查',
     check_security: '安全检查',
     check_others: '其他'
+  },
+  role: {
+    super_admin: '超级管理员',
+    admin: '管理员',
+    student: '学生'
   }
 }

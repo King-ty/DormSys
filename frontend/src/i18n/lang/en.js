@@ -34,6 +34,7 @@ export default {
     selectDormitory: 'Please select a dormitory',
     addUserTitle: 'Add User',
     editUserTitle: 'Edit User',
+    editInfoTitle: 'Edit Info',
     vericode: 'code',
     newPassword: 'new password',
     confirmPassword: 'confirm password',
@@ -42,6 +43,7 @@ export default {
   },
   table: {
     no: 'no',
+    no2: 'no',
     name: 'name',
     buildingName: 'name',
     password: 'password',
@@ -102,5 +104,10 @@ export default {
     check_clean: 'cleanliness',
     check_security: 'security',
     check_others: 'others'
+  },
+  role: {
+    super_admin: 'super admin',
+    admin: 'admin',
+    student: 'student'
   }
 }

@@ -1,11 +1,28 @@
 export const options = [
   {
     prop: 'no',
-    label: 'no'
+    label: 'no2'
   },
   {
     prop: 'name',
     label: 'name'
+  },
+  {
+    prop: 'tel',
+    label: 'tel'
+  },
+  {
+    prop: 'email',
+    label: 'email',
+    width: 100
+  },
+  {
+    prop: 'role',
+    label: 'role'
+  },
+  {
+    prop: 'gender',
+    label: 'gender'
   },
   {
     prop: 'building',
@@ -16,37 +33,17 @@ export const options = [
     label: 'dormitory'
   },
   {
-    prop: 'gender',
-    label: 'gender'
+    prop: 'major',
+    label: 'major'
   },
   {
-    prop: 'tel',
-    label: 'tel'
+    prop: 'grade',
+    label: 'grade'
   },
-  // {
-  //   prop: 'email',
-  //   label: 'email',
-  //   width: 100
-  // },
-  // // {
-  // //   prop: 'role',
-  // //   label: 'role'
-  // // },
-  // {
-  //   prop: 'major',
-  //   label: 'major'
-  // },
-  // {
-  //   prop: 'grade',
-  //   label: 'grade'
-  // },
-  // {
-  //   prop: 'classno',
-  //   label: 'classno'
-  // },
   {
-    prop: 'action',
-    label: 'action'
-    // width: 80
+    prop: 'classno',
+    label: 'classno'
   }
 ]
+
+export const roles = ['super_admin', 'admin', 'student']
