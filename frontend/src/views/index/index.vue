@@ -10,38 +10,104 @@
           @click="handleDialogValue()"
         ></el-button>
       </el-col>
-      <el-col :span="1" />
-      <el-col :span="7">
-        <div v-for="(item, index) in options" :key="index">
-          <template
-            v-if="$store.getters.role == 2 || showInfo.includes(item.prop)"
-          >
-            {{ $t(`table.${item.label}`) }}:&nbsp;
-            <template v-if="item.prop === 'role'">
-              {{ $t(`role.${roles[userInfo[item.prop]]}`) }}
+      <div class="row-right">
+        <el-col :span="12">
+          <div v-for="(item, index) in options" :key="index">
+            <template
+              v-if="$store.getters.role == 2 || showInfo.includes(item.prop)"
+            >
+              {{ $t(`table.${item.label}`) }}:&nbsp;
+              <template v-if="item.prop === 'role'">
+                {{ $t(`role.${roles[userInfo[item.prop]]}`) }}
+              </template>
+              <template v-else>
+                {{ userInfo[item.prop] }}
+              </template>
             </template>
-            <template v-else>
-              {{ userInfo[item.prop] }}
-            </template>
-          </template>
-        </div>
-      </el-col>
+          </div>
+        </el-col>
+      </div>
     </el-row>
   </el-card>
-  <el-card>
-    <!-- 通知 -->
-  </el-card>
-  <el-pagination
-    v-model:currentPage="queryForm.pagenum"
-    v-model:page-size="queryForm.pagesize"
-    :page-sizes="[5, 10, 15, 20]"
-    background
-    layout="total, sizes, prev, pager, next, jumper"
-    :total="total"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    class="el-pagination"
-  />
+
+  <el-row>
+    <el-col :span="12">
+      <el-card>
+        <!-- 通知 -->
+        <el-pagination
+          v-model:currentPage="queryForm.pagenum"
+          background
+          layout="total, prev, pager, next"
+          :total="total"
+          @current-change="handleCurrentChange"
+          class="el-pagination"
+        />
+      </el-card>
+    </el-col>
+    <el-col :span="12">
+      <el-card>
+        <!-- 请求 -->
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-input
+              :placeholder="$t('table.searchHolder')"
+              clearable
+              v-model="queryForm.query"
+            ></el-input>
+          </el-col>
+          <el-button type="primary" :icon="Search" @click="initGetUsersList">
+            {{ $t('table.search') }}
+          </el-button>
+        </el-row>
+        <el-table :data="tableData" stripe style="width: 100%">
+          <!-- highlight-current-row="true" -->
+          <el-table-column
+            :prop="item.prop"
+            :label="$t(`table.${item.label}`)"
+            v-for="(item, index) in requestOptions"
+            :key="index"
+            :min-width="item.width"
+            align="center"
+          >
+            <template v-slot="{ row }" v-if="item.prop === 'stu_num'">
+              {{ `${row.num} / ${row.max_num}` }}
+            </template>
+            <template v-slot="{ row }" v-else-if="item.prop === 'students'">
+              <el-link
+                v-for="(it, index) in row.students"
+                :key="index"
+                type="primary"
+              >
+                {{ it.no }} {{ it.name }}
+                <template v-if="index !== row.students.length - 1">
+                  ,&nbsp;
+                </template>
+              </el-link>
+            </template>
+            <template #default="{ row }" v-else-if="item.prop === 'action'">
+              <el-button
+                type="primary"
+                size="small"
+                @click="handleDialogValue(row)"
+              >
+                {{ $t('table.score') }}
+              </el-button>
+              <!-- <el-button type="success" size="small" :icon="InfoFilled"></el-button> -->
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          v-model:currentPage="queryForm2.pagenum"
+          background
+          layout="total, prev, pager, next"
+          :total="total"
+          @current-change="handleCurrentChange"
+          class="el-pagination"
+        />
+      </el-card>
+    </el-col>
+  </el-row>
+
   <Dialog
     v-model="dialogVisible"
     :dialogTable="dialogTable"
@@ -54,7 +120,7 @@
 import { ref, onMounted } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
 import { getUser } from '@/api/users'
-import { options, roles } from './options'
+import { options, roles, requestOptions } from './options'
 // import { ElMessage, ElMessageBox } from 'element-plus'
 // import { useI18n } from 'vue-i18n'
 import Dialog from './components/dialog'
@@ -106,6 +172,12 @@ const queryForm = ref({
   pagesize: 5
 })
 
+const queryForm2 = ref({
+  query: '',
+  pagenum: 1,
+  pagesize: 5
+})
+
 const dialogVisible = ref(false)
 
 const dialogTable = ref({})
@@ -127,12 +199,6 @@ const initGetUsersList = async () => {
 }
 initGetUsersList()
 
-const handleSizeChange = (pageSize) => {
-  queryForm.value.pagenum = 1
-  queryForm.value.pageSize = pageSize
-  initGetUsersList()
-}
-
 const handleCurrentChange = (pageNum) => {
   queryForm.value.pagenum = pageNum
   initGetUsersList()
@@ -148,5 +214,11 @@ const handleCurrentChange = (pageNum) => {
   padding: 16px;
   text-align: center;
   // margin-top: 20px;
+}
+
+.row-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

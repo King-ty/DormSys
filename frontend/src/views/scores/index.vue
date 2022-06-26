@@ -9,11 +9,7 @@
         :key="index"
         :min-width="item.width"
         align="center"
-        :sortable="
-          item.prop === 'time' ||
-          item.prop === 'dormitory' ||
-          item.prop === 'score'
-        "
+        :sortable="item.sortable"
       >
         <template v-slot="{ row }" v-if="item.prop === 'check_type'">
           {{ $t(`type.check_${checkSelectList[row.check_type].name}`) }}

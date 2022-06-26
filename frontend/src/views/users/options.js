@@ -1,11 +1,13 @@
 export const options = [
   {
     prop: 'no',
-    label: 'no'
+    label: 'no',
+    sortable: true
   },
   {
     prop: 'name',
-    label: 'name'
+    label: 'name',
+    sortable: true
   },
   {
     prop: 'building',

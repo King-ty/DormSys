@@ -75,7 +75,15 @@ export default {
     score_n: '得分',
     check_type: '检查类型',
     admin: '管理员',
-    time: '时间'
+    time: '时间',
+    searchHolder: '请输入关键字',
+    student: '学生',
+    propose_time: '提出时间',
+    req_type: '请求类型',
+    content: '内容',
+    handle_time: '解决时间',
+    handle_profile: '解决说明',
+    handled: '处理状态'
   },
   message: {
     addSuccess: '添加成功',

@@ -33,6 +33,7 @@ class Student(User, db.Model):
 
     building_id = db.Column(db.Integer, db.ForeignKey("buildings.id"))
     dorm_id = db.Column(db.Integer, db.ForeignKey("dormitories.id"))
+    requests = db.relationship("Request", backref="student", lazy="dynamic")
 
     def __repr__(self):
         return "<Student %r>" % self.name
@@ -116,6 +117,7 @@ class Request(db.Model):
     propose_time = db.Column(db.DateTime, primary_key=True)
     req_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表请求
     content = db.Column(db.Text, nullable=False)
+    handled = db.Column(db.Boolean, default=False, nullable=False)
     handle_time = db.Column(db.DateTime)
     handle_profile = db.Column(db.Text)
 
@@ -133,7 +135,7 @@ class Notice(db.Model):
                         primary_key=True,
                         index=True)
     notice_time = db.Column(db.DateTime, primary_key=True)
-    notice_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表公告
+    # notice_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表公告
     content = db.Column(db.Text, nullable=False)
 
     # profile = db.Column(db.Text)

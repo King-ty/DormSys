@@ -26,6 +26,7 @@
         :key="index"
         :min-width="item.width"
         align="center"
+        :sortable="item.sortable"
       >
         <template #default="{ row }" v-if="item.prop === 'action'">
           <el-button

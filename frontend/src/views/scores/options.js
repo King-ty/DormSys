@@ -1,7 +1,8 @@
 export const options = [
   {
     prop: 'dormitory',
-    label: 'dormitory'
+    label: 'dormitory',
+    sortable: true
     // width: 20
   },
   {
@@ -11,11 +12,13 @@ export const options = [
   },
   {
     prop: 'time',
-    label: 'time'
+    label: 'time',
+    sortable: true
   },
   {
     prop: 'score',
-    label: 'score'
+    label: 'score',
+    sortable: true
   },
   {
     prop: 'check_type',

@@ -1,7 +1,7 @@
 <template>
   <el-dropdown>
     <span class="el-dropdown-link">
-      <el-avatar :size="50" :src="circleUrl" />
+      <el-avatar :size="40" :src="circleUrl" />
     </span>
     <template #dropdown>
       <el-dropdown-menu>

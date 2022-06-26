@@ -75,7 +75,15 @@ export default {
     score_n: 'score',
     check_type: 'check type',
     admin: 'admin',
-    time: 'time'
+    time: 'time',
+    searchHolder: 'Please input query',
+    student: 'student',
+    propose_time: 'propose time',
+    req_type: 'request type',
+    content: 'content',
+    handle_time: 'handle time',
+    handle_profile: 'handle profile',
+    handled: 'handled'
   },
   message: {
     addSuccess: 'add successfully',

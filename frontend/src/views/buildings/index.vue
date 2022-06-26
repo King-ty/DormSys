@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-input
-          :placeholder="$t('table.placeholder')"
+          :placeholder="$t('table.searchHolder')"
           clearable
           v-model="queryForm.query"
         ></el-input>
@@ -26,6 +26,7 @@
         :key="index"
         :min-width="item.width"
         align="center"
+        :sortable="item.sortable"
       >
         <template
           v-slot="{ row }"

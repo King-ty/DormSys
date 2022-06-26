@@ -43,7 +43,42 @@ export const options = [
   {
     prop: 'classno',
     label: 'classno'
+  },
+  {
+    prop: 'profile',
+    label: 'profile'
   }
 ]
 
 export const roles = ['super_admin', 'admin', 'student']
+
+export const requestOptions = [
+  {
+    prop: 'student',
+    label: 'student'
+  },
+  {
+    prop: 'propose_time',
+    label: 'propose_time'
+  },
+  {
+    prop: 'req_type',
+    label: 'req_type'
+  },
+  {
+    prop: 'content',
+    label: 'content'
+  },
+  {
+    prop: 'handled',
+    label: 'handled'
+  },
+  {
+    prop: 'handle_time',
+    label: 'handle_time'
+  },
+  {
+    prop: 'handle_profile',
+    label: 'handle_profile'
+  }
+]
