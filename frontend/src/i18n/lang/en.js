@@ -16,7 +16,8 @@ export default {
     params: 'sorting list',
     categories: 'goods category',
     orders: 'order list',
-    reports: 'data report'
+    reports: 'data report',
+    index: 'index'
   },
   login: {
     title: 'user login',

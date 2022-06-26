@@ -16,7 +16,8 @@ export default {
     params: '分类参数',
     categories: '商品分类',
     orders: '订单列表',
-    reports: '数据报表'
+    reports: '数据报表',
+    index: '主页'
   },
   login: {
     title: '用户登录',
