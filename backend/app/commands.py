@@ -65,7 +65,7 @@ def db_init():
                   role=0,
                   password="123",
                   tel="12345678910",
-                  email="guan@li.com")
+                  email="king-ty@foxmail.com")
 
     admin1 = Admin(no="1234",
                    name="管理",

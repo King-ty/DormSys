@@ -9,7 +9,7 @@
       <el-form-item :label="$t('table.score_n')" prop="score">
         <el-input v-model.number="form.score" />
       </el-form-item>
-      <el-form-item :label="$t('table.score_n')" prop="score">
+      <el-form-item :label="$t('table.check_type')" prop="check_type">
         <el-select
           class="building-select"
           v-model="form.check_type"
