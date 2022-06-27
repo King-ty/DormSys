@@ -87,7 +87,8 @@ const validatePass2 = (rule, value, callback) => {
   if (value === '') {
     callback(new Error('请再次输入密码'))
     // password 是表单上绑定的字段
-  } else if (value !== form.value.password) {
+  } else if (password2.value !== form.value.password) {
+    // console.log(password2, form.value.password)
     callback(new Error('两次输入密码不一致!'))
   } else {
     callback()

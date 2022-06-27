@@ -112,9 +112,8 @@ class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     stu_no = db.Column(db.String(16),
                        db.ForeignKey("students.no"),
-                       primary_key=True,
-                       index=True)
-    propose_time = db.Column(db.DateTime, primary_key=True)
+                       nullable=False)
+    propose_time = db.Column(db.DateTime, nullable=False)
     req_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表请求
     content = db.Column(db.Text, nullable=False)
     handled = db.Column(db.Boolean, default=False, nullable=False)
@@ -132,9 +131,8 @@ class Notice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     work_no = db.Column(db.String(16),
                         db.ForeignKey("administrators.no"),
-                        primary_key=True,
-                        index=True)
-    notice_time = db.Column(db.DateTime, primary_key=True)
+                        nullable=False)
+    notice_time = db.Column(db.DateTime, nullable=False)
     # notice_type = db.Column(db.SmallInteger, nullable=False)  # TODO:编写枚举类型代表公告
     content = db.Column(db.Text, nullable=False)
 

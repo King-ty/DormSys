@@ -29,7 +29,7 @@ export default {
     forget_password: 'forget password?'
   },
   dialog: {
-    deleteTitle: 'Are you sure you want to delete the user ',
+    deleteTitle: 'Are you sure you want to delete',
     selectBuilding: 'Please select a building',
     selectDormitory: 'Please select a dormitory',
     addUserTitle: 'Add User',
@@ -44,6 +44,7 @@ export default {
   table: {
     no: 'no',
     no2: 'no',
+    dorm_no: 'dormitory no',
     name: 'name',
     buildingName: 'name',
     password: 'password',
@@ -63,6 +64,7 @@ export default {
     role: 'role',
     action: 'action',
     search: 'search',
+    add: 'add',
     adduser: 'add user',
     placeholder: 'Please enter a user name to search for',
     stu_num: 'students number',
@@ -77,6 +79,7 @@ export default {
     admin: 'admin',
     time: 'time',
     searchHolder: 'Please input query',
+    editorHolder: 'Please input content',
     student: 'student',
     propose_time: 'propose time',
     req_type: 'request type',

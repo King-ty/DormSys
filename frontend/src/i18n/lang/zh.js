@@ -29,7 +29,7 @@ export default {
     forget_password: '忘记密码？'
   },
   dialog: {
-    deleteTitle: '确定要删除用户',
+    deleteTitle: '确定要删除',
     selectBuilding: '请选择宿舍楼',
     selectDormitory: '请选择宿舍',
     addUserTitle: '添加用户',
@@ -44,6 +44,7 @@ export default {
   table: {
     no: '学号',
     no2: '学号/工号',
+    dorm_no: '宿舍号',
     buildingName: '楼名',
     name: '姓名',
     password: '密码',
@@ -63,6 +64,7 @@ export default {
     role: '角色',
     action: '操作',
     search: '搜索',
+    add: '添加',
     adduser: '添加用户',
     placeholder: '请输入搜索的用户姓名',
     stu_num: '学生数',
@@ -77,6 +79,7 @@ export default {
     admin: '管理员',
     time: '时间',
     searchHolder: '请输入关键字',
+    editorHolder: '请输入内容',
     student: '学生',
     propose_time: '提出时间',
     req_type: '请求类型',
@@ -91,7 +94,7 @@ export default {
     delCancel: '取消删除',
     updeteSuccess: '更新成功',
     codeSuccess: '发送验证码成功',
-    codeError: 'no项不正确',
+    codeError: '号码项不正确',
     formInvalid: '表单不合法'
   },
   driver: {

@@ -34,6 +34,22 @@
     <el-col :span="12">
       <el-card>
         <!-- 通知 -->
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-input
+              :placeholder="$t('table.searchHolder')"
+              clearable
+              v-model="queryForm.query"
+            ></el-input>
+          </el-col>
+          <el-button type="primary" :icon="Search" @click="initGetUsersList">
+            {{ $t('table.search') }}
+          </el-button>
+          <el-button type="primary" :icon="Plus" @click="handleDialogValue2()">
+            {{ $t('table.add') }}
+          </el-button>
+        </el-row>
+        <el-card> 测试通知 </el-card>
         <el-pagination
           v-model:currentPage="queryForm.pagenum"
           background
@@ -100,7 +116,7 @@
           v-model:currentPage="queryForm2.pagenum"
           background
           layout="total, prev, pager, next"
-          :total="total"
+          :total="total2"
           @current-change="handleCurrentChange"
           class="el-pagination"
         />
@@ -108,22 +124,24 @@
     </el-col>
   </el-row>
 
-  <Dialog
-    v-model="dialogVisible"
-    :dialogTable="dialogTable"
+  <Dialog v-model="dialogVisible" :dialogTable="dialogTable"></Dialog>
+  <Dialog2
+    v-model="dialogVisible2"
+    :dialogTable="dialogTable2"
     @getUsersList="initGetUsersList"
-  ></Dialog>
+  ></Dialog2>
   <!-- v-if="dialogVisible" -->
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Edit } from '@element-plus/icons-vue'
+import { Edit, Plus, Search } from '@element-plus/icons-vue'
 import { getUser } from '@/api/users'
 import { options, roles, requestOptions } from './options'
 // import { ElMessage, ElMessageBox } from 'element-plus'
 // import { useI18n } from 'vue-i18n'
 import Dialog from './components/dialog'
+import Dialog2 from './components/dialog2'
 import { useStore } from 'vuex'
 // import { isNull } from '@/utils/filters'
 
@@ -188,8 +206,19 @@ const handleDialogValue = async (row) => {
   // console.log(222, dialogType.value)
 }
 
+const dialogVisible2 = ref(false)
+
+const dialogTable2 = ref({})
+
+const handleDialogValue2 = async () => {
+  dialogTable2.value = {}
+  dialogVisible2.value = true
+  // console.log(222, dialogType.value)
+}
+
 // const tableData = ref([])
-const total = ref(0)
+const total = ref(1)
+const total2 = ref(0)
 
 const initGetUsersList = async () => {
   // const res = await getUsers(queryForm.value)
@@ -197,7 +226,6 @@ const initGetUsersList = async () => {
   // tableData.value = res.users
   // total.value = res.total
 }
-initGetUsersList()
 
 const handleCurrentChange = (pageNum) => {
   queryForm.value.pagenum = pageNum

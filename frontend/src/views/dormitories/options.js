@@ -1,7 +1,12 @@
 export const options = [
   {
     prop: 'no',
-    label: 'no'
+    label: 'dorm_no'
+    // width: 20
+  },
+  {
+    prop: 'building',
+    label: 'building'
     // width: 20
   },
   {

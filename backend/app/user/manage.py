@@ -103,7 +103,7 @@ def add_user(current_user):
     if dorm_id:
         dormitory = Dormitory.query.filter_by(id=dorm_id).first()
         students_in = dormitory.students.all()
-        if len(students_in) >= dormitory.max_num:
+        if len(students_in) >= dormitory.max_number:
             return jsonRes(code=RET.LIMIT, msg="该宿舍已满员")
     u = Student(no=no,
                 name=name,
@@ -157,7 +157,7 @@ def edit_user(current_user):
     if dorm_id and u.dorm_id != dorm_id:
         dormitory = Dormitory.query.filter_by(id=dorm_id).first()
         students_in = dormitory.students.all()
-        if len(students_in) >= dormitory.max_num:
+        if len(students_in) >= dormitory.max_number:
             return jsonRes(code=RET.LIMIT, msg="该宿舍已满员")
 
     u.name = name
